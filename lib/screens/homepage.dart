@@ -13,6 +13,7 @@ import 'package:kemet/screens/offers2.dart';
 import 'package:kemet/widget/bottomnavebar.dart';
 import 'package:kemet/widget/card.dart';
 import 'package:kemet/widget/governorates.dart';
+import 'package:kemet/widget/newgov.dart';
 import 'package:kemet/widget/text.dart';
 
 class HomePage extends StatelessWidget {
@@ -92,7 +93,7 @@ class HomePage extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: 15,
+                      height: 20,
                     ),
                     // Field(
                     //   width: 354,
@@ -106,9 +107,10 @@ class HomePage extends StatelessWidget {
                     // SizedBox(
                     //   height: 16,
                     // ),
-                    governorates(),
+                    //governorates(),
+                    Governoratesnew(),
                     SizedBox(
-                      height: 18,
+                      height: 22,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -129,7 +131,7 @@ class HomePage extends StatelessWidget {
                           },
                           child: SLtext(
                             text: 'See more',
-                            weight: FontWeight.w400,
+                            weight: FontWeight.w600,
                             size: 12,
                             color: Color(0xffB68B25),
                             decoration: TextDecoration.underline,
@@ -157,8 +159,8 @@ class HomePage extends StatelessWidget {
                     //SizedBox(height: 20), // Adjusted height
                     Expanded(child: OfferScreen()),
                     // SizedBox(height: 5,),
-                    Expanded(
-                        child: Offer2Screen()) // Moved OfferScreen widget here
+                    // Expanded(
+                    //     child: Offer2Screen()) // Moved OfferScreen widget here
                     // Expanded(
                     //   child: ListView.builder(
                     //     //itemCount: 1,
@@ -227,78 +229,3 @@ class HomePage extends StatelessWidget {
     );
   }
 }
-
-
- //card(),
-                                // card(
-                                //        imgcover: ,
-                                //         onTap: () {
-                                //           Navigator.of(context).push(
-                                //               MaterialPageRoute(
-                                //                   builder: (context) =>
-                                //                       EventsScreen()));
-                                //         },
-                                //         border: Border(
-                                //             right: BorderSide(
-                                //                 color: Color(0xff111441), width: 5),
-                                //             bottom: BorderSide(
-                                //                 color: Color(0xff111441), width: 5),
-                                //             left: BorderSide(
-                                //                 color: Color(0xff111441), width: .5),
-                                //             top: BorderSide(
-                                //                 color: Color(0xff111441), width: .5)),
-                                //       ),
-                                //       card(
-                                //     onTap: () {
-                                //       Navigator.of(context).push(
-                                //           MaterialPageRoute(
-                                //               builder: (context) =>
-                                //                   EventsScreen()));
-                                //     },
-                                //     border: Border(
-                                //         right: BorderSide(
-                                //             color: Color(0xffF92729), width: 5),
-                                //         bottom: BorderSide(
-                                //             color: Color(0xffF92729), width: 5),
-                                //         left: BorderSide(
-                                //             color: Color(0xffF92729), width: .5),
-                                //         top: BorderSide(
-                                //             color: Color(0xffF92729), width: .5)),
-                                //   ),
-                                //   card(
-                                //         onTap: () {
-                                //           Navigator.of(context).push(
-                                //               MaterialPageRoute(
-                                //                   builder: (context) =>
-                                //                       EventsScreen()));
-                                //         },
-                                //         border: Border(
-                                //             right: BorderSide(
-                                //                 color: Color(0xff111441), width: 5),
-                                //             bottom: BorderSide(
-                                //                 color: Color(0xff111441), width: 5),
-                                //             left: BorderSide(
-                                //                 color: Color(0xff111441), width: .5),
-                                //             top: BorderSide(
-                                //                 color: Color(0xff111441), width: .5)),
-                                //       ),
-
-                                //  card(
-                                //     onTap: () {
-                                //       Navigator.of(context).push(
-                                //           MaterialPageRoute(
-                                //               builder: (context) =>
-                                //                   EventsScreen()));
-                                //     },
-                                //     border: Border(
-                                //         right: BorderSide(
-                                //             color: Color(0xffF92729), width: 5),
-                                //         bottom: BorderSide(
-                                //             color: Color(0xffF92729), width: 5),
-                                //         left: BorderSide(
-                                //             color: Color(0xffF92729), width: .5),
-                                //         top: BorderSide(
-                                //             color: Color(0xffF92729), width: .5)),
-                                //   ),
-                               // Create a widget for the blue card
-                            // Create a widget for the red card

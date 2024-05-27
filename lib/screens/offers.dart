@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:kemet/logic/cache/cache_helper.dart';
+import 'package:kemet/logic/core/api/end_ponits.dart';
 import 'package:kemet/screens/event-place.dart';
 
 class TouristPlace {
@@ -30,26 +32,27 @@ class _OfferScreenState extends State<OfferScreen> {
 
   Future<void> initializeTouristPlaces() async {
     final dio = Dio();
-    const url =
-        'https://kemet-gp2024.onrender.com/api/v1/offers/662a2327bcfb540daac62a77';
+    const url = 'https://kemet-gp2024.onrender.com/api/v1/offers';
 
     try {
       final response = await dio.get(url);
+      final token = CacheHelper().getDataString(key: ApiKey.token);
+
       if (response.statusCode == 200) {
         final responseData = response.data;
         if (responseData is Map<String, dynamic>) {
-          final Map<String, dynamic>? offer = responseData['offer'];
-          if (offer != null) {
+          final List<dynamic>? offers = responseData['offers'];
+          if (offers != null && offers.isNotEmpty) {
             setState(() {
-              places = [
-                TouristPlace(
+              places = offers.take(2).map((offer) {
+                return TouristPlace(
                   offer['title'],
                   offer['description'],
                   offer['imgCover'],
                   offer['price'].toDouble(),
                   offer['quantity'],
-                )
-              ];
+                );
+              }).toList();
             });
           }
         } else {
@@ -186,7 +189,8 @@ class _OfferScreenState extends State<OfferScreen> {
                                                 Text(
                                                   '\$${places[index].price.toStringAsFixed(2)}', // Display price formatted as currency
                                                   style: TextStyle(
-                                                    fontWeight: FontWeight.bold,
+                                                    fontWeight:
+                                                        FontWeight.bold,
                                                     fontSize: 14,
                                                   ),
                                                 ),

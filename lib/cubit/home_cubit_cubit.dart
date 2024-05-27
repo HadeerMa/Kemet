@@ -73,7 +73,7 @@ class UserDataCubit extends Cubit<UserDataState> {
         List<governrateModel> governrateModels = [];
         final Map<String, String> locationImages = {};
         final List<String> targetLocations = [
-          'Alexandria',
+          'Giza',
           'Cairo',
           'Aswan',
           'Luxor',
@@ -95,9 +95,8 @@ class UserDataCubit extends Cubit<UserDataState> {
         });
 
         final governrateModel alexandriaModel = governrateModels.firstWhere(
-            (model) => model.name == 'Alexandria',
-            orElse: () =>
-                governrateModel(id: '', image: '', name: 'Alexandria'));
+            (model) => model.name == 'Giza',
+            orElse: () => governrateModel(id: '', image: '', name: 'Giza'));
         final governrateModel cairoModel = governrateModels.firstWhere(
             (model) => model.name == 'Cairo',
             orElse: () => governrateModel(id: '', image: '', name: 'Cairo'));

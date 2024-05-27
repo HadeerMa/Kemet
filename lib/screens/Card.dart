@@ -3,10 +3,10 @@ import 'package:dio/dio.dart';
 import 'package:kemet/screens/event-place.dart';
 import 'package:kemet/screens/offers.dart';
 
-class OfferScreen extends StatelessWidget {
+class OfferScreen2 extends StatelessWidget {
   final TouristPlace place;
 
-  const OfferScreen({Key? key, required this.place}) : super(key: key);
+  const OfferScreen2({Key? key, required this.place}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -20,35 +20,32 @@ class imagecover extends StatelessWidget {
   String? id;
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      flex: flexvalue!,
-      child: GestureDetector(
-        onTap: ontap,
-        child: Container(
-          width: width,
-          height: height,
-          decoration: BoxDecoration(
-            borderRadius: radius,
-            image: DecorationImage(
-              image: NetworkImage(image!),
-              fit: BoxFit.fill,
-            ),
+    return GestureDetector(
+      onTap: ontap,
+      child: Container(
+        width: width,
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: radius,
+          image: DecorationImage(
+            image: NetworkImage(image!),
+            fit: BoxFit.fill,
           ),
-          child: Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: EdgeInsets.symmetric(vertical: 8),
-              width: double.infinity,
-              color: Colors.black54,
-              child: Text(
-                text!,
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
+        ),
+        child: Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            padding: EdgeInsets.symmetric(vertical: 8),
+            width: double.infinity,
+            color: Colors.black54,
+            child: Text(
+              text!,
+              style: TextStyle(
+                color: Colors.white,
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
               ),
+              textAlign: TextAlign.center,
             ),
           ),
         ),
