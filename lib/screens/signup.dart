@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:kemet/pages/privacy.dart';
+import 'package:kemet/pages2/privacy.dart';
 import 'package:kemet/screens/login.dart';
 import 'package:kemet/screens/signWITHemail.dart';
 import 'package:kemet/widget/SignLogin.dart';
@@ -98,16 +98,17 @@ class signup extends StatelessWidget {
                       },
                       child: SLtext(
                         text: 'Privacy Policy\t',
-                        color: Color(0xffB68B25),
-                        size: 12,
-                        weight: FontWeight.w800,
+                        //color: Colors.black,
+                        //color: Color(0xffB68B25),
+                        size: 15,
+                        weight: FontWeight.bold,
                       ),
                     ),
-                    SLtext(
-                      text: 'and',
-                      size: 12,
-                      weight: FontWeight.w800,
-                    )
+                    // SLtext(
+                    //   text: 'and',
+                    //   size: 12,
+                    //   weight: FontWeight.w800,
+                    // )
                   ],
                 ),
                 GestureDetector(
@@ -116,7 +117,7 @@ class signup extends StatelessWidget {
                         MaterialPageRoute(builder: (context) => Privacy()));
                   },
                   child: SLtext(
-                    text: 'Terms of Service',
+                    text: '\n More About Kemet',
                     color: Color(0xffB68B25),
                     size: 12,
                     weight: FontWeight.w800,

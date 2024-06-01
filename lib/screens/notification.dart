@@ -118,9 +118,8 @@ class NotificationScreen extends StatelessWidget {
                         ),
 
                         onPressed: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => HistoricScreen()));
-                        },
+            Navigator.pushReplacementNamed(context, '/HistoricScreen');
+          },
                       ),
                     ),
                   ],

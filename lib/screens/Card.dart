@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
-import 'package:kemet/screens/event-place.dart';
 import 'package:kemet/screens/offers.dart';
 
 class OfferScreen2 extends StatelessWidget {

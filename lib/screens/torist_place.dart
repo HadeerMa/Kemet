@@ -1,142 +1,123 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:kemet/pages/search.dart';
-import 'package:kemet/screens/history_place.dart';
+import 'package:kemet/models2/favorites_tourism.dart';
+import 'package:kemet/pages2/history_of_place.dart';
 import 'package:kemet/screens/homepage.dart';
 
-class TouristPlace {
-  final String title;
-  final String description;
-  final String imageUrl;
-
-  TouristPlace(this.title, this.description, this.imageUrl);
-}
 
 class ToristPlace extends StatefulWidget {
+  final String governateId;
+
+  ToristPlace({required this.governateId});
+
   @override
   _ToristPlaceState createState() => _ToristPlaceState();
 }
 
 class _ToristPlaceState extends State<ToristPlace> {
-  //final TextEditingController _searchController = TextEditingController();
-  bool isSearching = false;
-
-  List<TouristPlace> places = [];
+  List<TourismPlace> places = [];
 
   @override
   void initState() {
     super.initState();
-    initializeTouristPlaces();
+    initializeTouristPlaces(widget.governateId);
   }
 
-  void initializeTouristPlaces() {
-    places = [
-      TouristPlace(
-        'Pyramids of Giza',
-        'The Pyramids of Giza are ancient Egyptian monuments that are known worldwide.',
-        'https://th.bing.com/th/id/OIP.HEX_NEdz-whfW1VdmnLpSQAAAA?w=233&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      ),
-      TouristPlace(
-        'Sphinx',
-        'The Great Sphinx of Giza is a colossal statue with the body of a lion and the head of a pharaoh.',
-        'https://th.bing.com/th/id/OIP.4AwBakv1HMrH-Hd_8DmwFAHaE8?w=300&h=200&c=7&r=0&o=5&dpr=1.3&pid=1.7',
-      ),
-      TouristPlace(
-        'Khan el-Khalili',
-        'Khan el-Khalili is a famous bazaar in Cairo, Egypt.',
-        'https://www.sayidaty.net/sites/default/files/imce/user54794/1_584.jpg',
-      ),
-    ];
+  void initializeTouristPlaces(String governrateId) async {
+    final String apiUrl =
+        'https://kemet-gp2024.onrender.com/api/v1/governrates/$governrateId/tourismPlaces';
+
+    try {
+      Dio dio = Dio();
+      Response response = await dio.get(apiUrl);
+
+      if (response.statusCode == 200) {
+        final List<dynamic> documents = response.data['document'];
+        List<TourismPlace> fetchedPlaces = documents.map((data) {
+          return TourismPlace.fromJson(data);
+        }).toList();
+
+        setState(() {
+          places = fetchedPlaces;
+        });
+      } else {
+        throw Exception('Failed to load tourist places');
+      }
+    } catch (error) {
+      print('Error fetching tourist places: $error');
+    }
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
-    TextStyle titleStyle = TextStyle(
-      fontSize: 20,
-      fontWeight: FontWeight.bold,
-    );
-
-    TextStyle descriptionStyle = TextStyle(
-      fontSize: 14,
-      color: Colors.grey,
-    );
-
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          'Giza',
-          style: TextStyle(
-            fontFamily: 'Poppins',
-            fontSize: 30, fontWeight: FontWeight.bold,
-            //color: Colors.black
-          ),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            // color: Colors.black,
-          ),
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => HomePage()));
-          },
-        ),
-      ),
-      body: Column(
+     // backgroundColor: Colors.white,
+      
+      body:
+       Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Padding(
-            padding: EdgeInsets.only(top: 15.0),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 10.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(12.0),
-                  border: Border.all(
-                    color: Color.fromARGB(255, 113, 111, 111),
-                    width: 2.0,
-                  ),
+            padding: const EdgeInsets.only(left: 5.0, top: 40.0),
+            child: Row(
+              children: [
+                IconButton(
+                  icon: Icon(Icons.arrow_back_ios_new_rounded),
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
                 ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => Search()));
-                        },
-                        child: Container(
-                          width: 354,
-                          height: 38,
-                          child: Row(
-                            children: [
-                              SizedBox(
-                                width: 5,
-                              ),
-                              Icon(Icons.search),
-                              SizedBox(
-                                width: 15,
-                              ),
-                              Text(
-                                'Search',
-                                style: TextStyle(fontFamily: 'Poppins'),
-                              )
-                            ],
-                          ),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        // SizedBox(
-                        //   height: 16,
-                        // ),
+                Expanded(
+                  child: Center(
+                    child: Text(
+                      'Tourism Places',
+                      style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              ),
+                SizedBox(width: 40.0),
+              ],
             ),
+          ),
+          SizedBox(height: 35,),
+          Row(
+            children: [
+               GestureDetector(
+                  // onTap: () {
+                  //  Navigator.of(context).push(
+                  //  MaterialPageRoute(builder: (context) => Search()),
+                  // );
+                  // },
+                  child: Padding(
+                    padding:  EdgeInsets.only(left: 20),
+                    child: Container(
+                      width: 354,
+                      height: 38,
+                      child: Row(
+                        children: [
+                          SizedBox(width: 5),
+                          Icon(Icons.search),
+                          SizedBox(width: 15),
+                          Text(
+                            'Search',
+                            style: TextStyle(fontFamily: 'Poppins'),
+                          ),
+                        ],
+                      ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(8),
+                        border: Border.all(color: Colors.grey), // Add border
+                      ),
+                    ),
+                  ),
+                ),
+              
+            ],
           ),
           Expanded(
             child: ListView.builder(
@@ -144,11 +125,12 @@ class _ToristPlaceState extends State<ToristPlace> {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                    // Navigate to the second screen when the image is tapped
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => HistoryOfPlace(),
+                        builder: (context) => HistoryOfPlace(
+                          tourismPlace: places[index],
+                        ),
                       ),
                     );
                   },
@@ -172,7 +154,7 @@ class _ToristPlaceState extends State<ToristPlace> {
                                         image: DecorationImage(
                                           fit: BoxFit.cover,
                                           image: NetworkImage(
-                                            places[index].imageUrl,
+                                            places[index].imgCover,
                                           ),
                                         ),
                                       ),
@@ -211,15 +193,21 @@ class _ToristPlaceState extends State<ToristPlace> {
                                               CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              places[index].title,
-                                              style: titleStyle,
+                                              places[index].name,
+                                              style: TextStyle(
+                                                fontSize: 20,
+                                                fontWeight: FontWeight.bold,
+                                              ),
                                             ),
-                                            SizedBox(
-                                              height: 8.0,
-                                            ),
+                                            SizedBox(height: 8.0),
                                             Text(
-                                              places[index].description,
-                                              style: descriptionStyle,
+                                              places[index].informationAbout,
+                                              style: TextStyle(
+                                                fontSize: 14,
+                                                color: Colors.grey,
+                                              ),
+                                              maxLines: 2,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ],
                                         ),

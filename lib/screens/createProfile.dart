@@ -1,7 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:kemet/components/custom_edit_photo.dart';
 import 'package:kemet/cubit/create_password_state.dart';
 import 'package:kemet/cubit/createprofile_cubit.dart';
 import 'package:kemet/cubit/createprofile_state.dart';
@@ -11,6 +10,8 @@ import 'package:kemet/screens/errorPoPUP.dart';
 import 'package:kemet/widget/Button.dart';
 import 'package:kemet/widget/text.dart';
 import 'package:kemet/widget/textField.dart';
+
+import '../components2/edit_photo2.dart';
 
 class CreateProfilePage extends StatefulWidget {
   @override
@@ -112,7 +113,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                   key: context.read<createprofileCubit>().createprofileFormKey,
                   child: Column(
                     children: [
-                                        const PickImageWidget(),
+                                         PickImageWidget(),
 
                       SizedBox(height: 60),
                       Column(

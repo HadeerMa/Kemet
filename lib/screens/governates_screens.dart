@@ -1,44 +1,140 @@
 //import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:kemet/modules/category.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kemet/cubit/cubit/governorate_cubit.dart';
+import 'package:kemet/models2/favorites_tourism.dart';
+import 'package:kemet/pages2/governorate.dart';
+import 'package:kemet/pages2/governorate_search.dart';
+import 'package:kemet/pages2/tourism_search.dart';
+import 'package:kemet/repositories/governrate_repo.dart';
+import 'package:kemet/screens/card%20gov.dart';
 import 'package:kemet/screens/homepage.dart';
 
 class GovernatesScreen extends StatelessWidget {
-  const GovernatesScreen({super.key});
+  final String baseUrl = 'https://kemet-gp2024.onrender.com/api/v1';
+  final GovernatesRepository governatesRepository = GovernatesRepository(
+    baseUrl: 'https://kemet-gp2024.onrender.com/api/v1',
+  );
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Text(
-          'Governorates',
-          style: TextStyle(
-              fontSize: 30,
-              fontWeight: FontWeight.bold,
-              // color: Colors.black,
-              fontFamily: 'Poppins'),
-        ),
-        centerTitle: true,
-        leading: IconButton(
-          icon: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            //color: Colors.black,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 40.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    icon: Icon(Icons.arrow_back_ios_new_rounded),
+                    onPressed: () {
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                  Text(
+                    'Governorates',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.bold,
+                      fontFamily: 'Poppins',
+                    ),
+                  ),
+                  SizedBox(width: 40.0), // Adjust as needed for spacing
+                ],
+              ),
+              SizedBox(height: 20.0),
+              Row(
+                children: [
+                  GestureDetector(
+                    // onTap: () {
+                    //  Navigator.of(context).push(
+                    //  MaterialPageRoute(builder: (context) => Search()),
+                    // );
+                    // },
+                    onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => GovernorateSearch()),
+                      );
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.only(left: 20),
+                      child: Container(
+                        width: 354,
+                        height: 38,
+                        child: Row(
+                          children: [
+                            SizedBox(width: 5),
+                            Icon(Icons.search),
+                            SizedBox(width: 15),
+                            Text(
+                              'Search',
+                              style: TextStyle(fontFamily: 'Poppins'),
+                            ),
+                          ],
+                        ),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.grey), // Add border
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              SizedBox(height: 30),
+              BlocProvider(
+                create: (context) =>
+                    GovernatesCubit(governatesRepository: governatesRepository)
+                      ..fetchGovernates(),
+                child: BlocBuilder<GovernatesCubit, List<Governate>>(
+                  builder: (context, state) {
+                    if (state.isEmpty) {
+                      return Center(
+                        child: CircularProgressIndicator(),
+                      );
+                    } else {
+                      return GridView.builder(
+                        shrinkWrap: true,
+                        physics:
+                            NeverScrollableScrollPhysics(), // Disable GridView's scrolling
+                        padding: EdgeInsets.symmetric(
+                            horizontal: 16.0, vertical: 8.0),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 16.0,
+                          mainAxisSpacing: 16.0,
+                          childAspectRatio:
+                              0.75, // Aspect ratio of the card (width / height)
+                        ),
+                        itemCount: state.length,
+                        itemBuilder: (context, index) {
+                          final governate = state[index];
+                          return GestureDetector(
+                            onTap: () {
+                              // Navigate to ToristPlace screen with selected governateId
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      ToristPlace(governateId: governate.id),
+                                ),
+                              );
+                            },
+                            child: CategoryCard(governate: governate),
+                          );
+                        },
+                      );
+                    }
+                  },
+                ),
+              ),
+            ],
           ),
-          onPressed: () {
-            Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => HomePage()));
-          },
         ),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListView.builder(
-            itemCount: 27,
-            itemBuilder: (context, index) {
-              return CategoryCard();
-            }),
       ),
     );
   }

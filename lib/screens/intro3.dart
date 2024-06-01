@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:kemet/screens/notification.dart';
 import 'package:kemet/screens/signup.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HistoricScreen extends StatelessWidget {
   Color color = Color(0xFFe7dabb);
@@ -115,10 +116,11 @@ class HistoricScreen extends StatelessWidget {
                         size: 70,
                       ),
 
-                      onPressed: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => signup()));
-                      },
+                      onPressed: () async {
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            await prefs.setBool('onboardingCompleted', true);
+            Navigator.pushReplacementNamed(context, '/login');
+          },
                     )),
               ],
             ),

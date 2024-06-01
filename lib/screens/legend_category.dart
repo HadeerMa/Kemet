@@ -1,260 +1,338 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:kemet/pages/account.dart';
-import 'package:kemet/pages/search.dart';
+import 'package:flutter/widgets.dart';
+import 'package:kemet/logic/cache/cache_helper.dart';
+import 'package:kemet/logic/core/api/end_ponits.dart';
+import 'package:kemet/pages2/account.dart';
+import 'package:kemet/pages2/legand.dart';
 import 'package:kemet/screens/homepage.dart';
 import 'package:kemet/widget/bottomnavebar.dart';
-import 'legend.dart';
 
 class LegendCategory extends StatefulWidget {
-  const LegendCategory({Key? key}) : super(key: key);
-
   @override
   _LegendCategoryState createState() => _LegendCategoryState();
 }
 
 class _LegendCategoryState extends State<LegendCategory> {
-  //final TextEditingController _searchController = TextEditingController();
-  bool isSearching = false;
+  final String apiUrl = 'https://kemet-gp2024.onrender.com/api/v1/legends';
+  List<dynamic> legends = [];
+  Future<Map<String, String>>? userProfileFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+    userProfileFuture = fetchUserProfile();
+  }
+
+  Future<void> fetchData() async {
+    try {
+      var dio = Dio();
+      final token = CacheHelper().getDataString(key: ApiKey.token);
+
+      var response = await dio.get(
+        apiUrl,
+        options: Options(
+          headers: {
+            'token': token,
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        setState(() {
+          legends = response.data['document'];
+        });
+      } else {
+        print('Failed to load legends');
+      }
+    } catch (e) {
+      print('Error: $e');
+    }
+  }
+
+  Future<Map<String, String>> fetchUserProfile() async {
+    try {
+      final dio = Dio();
+      final token = CacheHelper().getDataString(key: ApiKey.token);
+
+      final response = await dio.get(
+        'https://kemet-gp2024.onrender.com/api/v1/auth/profile',
+        options: Options(
+          headers: {
+            'token': token,
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        final data = response.data['user'];
+        final firstName = data['firstName'];
+        final profileImage = data['profileImg'];
+        return {
+          'firstName': firstName,
+          'profileImage': profileImage,
+        };
+      } else {
+        throw Exception('Failed to load user profile');
+      }
+    } catch (e) {
+      throw Exception('Failed to load user profile: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
+
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-        title: Padding(
-          padding: const EdgeInsets.only(top: 20),
+      backgroundColor: Colors.white,
+      body: Padding(
+        padding: const EdgeInsets.only(
+          top: 30,
+        ),
+        child: SingleChildScrollView(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Hello, Ahmed',
-                style: TextStyle(
-                  fontSize: 20,
-                  fontFamily: 'Poppins',
-                  fontWeight: FontWeight.bold,
-                  // color: Colors.black
+              Container(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.04,
+                  vertical: screenHeight * 0.02,
+                ),
+                child: FutureBuilder<Map<String, String>>(
+                  future: userProfileFuture,
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 25.0,
+                            backgroundColor: Colors.grey.shade200,
+                          ),
+                          SizedBox(width: screenWidth * 0.04),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: screenWidth * 0.25,
+                                height: screenHeight * 0.025,
+                                color: Colors.grey.shade200,
+                              ),
+                              SizedBox(height: screenHeight * 0.005),
+                              Container(
+                                width: screenWidth * 0.4,
+                                height: screenHeight * 0.018,
+                                color: Colors.grey.shade200,
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    } else if (snapshot.hasError) {
+                      return Text('Error: ${snapshot.error}');
+                    } else if (snapshot.hasData) {
+                      final userProfile = snapshot.data!;
+                      return Row(
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => Account()));
+                            },
+                            child: CircleAvatar(
+                              radius: 25.0,
+                              backgroundImage:
+                                  NetworkImage(userProfile['profileImage']!),
+                            ),
+                          ),
+                          SizedBox(width: screenWidth * 0.04),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                'Hello, ${userProfile['firstName']}',
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.05,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(height: screenHeight * 0.005),
+                              Text(
+                                'Let\'s take a tour in Egypt',
+                                style: TextStyle(
+                                  fontSize: screenWidth * 0.03,
+                                  fontWeight: FontWeight.normal,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      );
+                    } else {
+                      return Text('No data found');
+                    }
+                  },
                 ),
               ),
-              SizedBox(
-                height: 5,
-              ),
-              Text(
-                'Let\'s take a tour in Egypt',
-                style: TextStyle(
-                    fontSize: 12.0,
-                    fontFamily: 'Poppins',
-                    fontWeight: FontWeight.normal,
-                    color: Colors.grey),
-              ),
-            ],
-          ),
-        ),
-        leading: Padding(
-          padding: EdgeInsets.only(left: 16.0, top: 15.0),
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: (context) => Account()));
-            },
-            child: CircleAvatar(
-              radius: 50.0, // Adjust the radius as needed
-              backgroundImage: NetworkImage(
-                  'https://uploads-ssl.webflow.com/62b9460fd9967c495fcac35c/62b976bf41ebe073549df494_ArtifactLabs-oograph.png'),
-            ),
-          ),
-        ),
-      ),
-      body: Column(children: [
-        Padding(
-          padding: EdgeInsets.only(top: 8),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(12.0),
-                border: Border.all(
-                  color: Color.fromARGB(255, 113, 111, 111),
-                  width: 1.0,
+              Padding(
+                padding: EdgeInsets.symmetric(
+                  horizontal: screenWidth * 0.05,
+                  vertical: screenHeight * 0.01,
                 ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.of(context).push(
-                            MaterialPageRoute(builder: (context) => Search()));
-                      },
+                child: Row(
+                  children: [
+                    Expanded(
                       child: Container(
-                        width: 354,
-                        height: 38,
+                        height: screenHeight * 0.05,
                         child: Row(
                           children: [
-                            SizedBox(
-                              width: 5,
-                            ),
+                            SizedBox(width: screenWidth * 0.01),
                             Icon(Icons.search),
-                            SizedBox(
-                              width: 15,
-                            ),
+                            SizedBox(width: screenWidth * 0.03),
                             Text(
                               'Search',
                               style: TextStyle(fontFamily: 'Poppins'),
-                            )
+                            ),
                           ],
                         ),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(8),
+                          border: Border.all(color: Colors.grey),
                         ),
                       ),
-                      // SizedBox(
-                      //   height: 16,
-                      // ),
                     ),
-                  ),
-                  // isSearching
-                  //     ? IconButton(
-                  //         icon: Icon(
-                  //           Icons.clear,
-                  //           // color: Colors.black,
-                  //         ),
-                  //         onPressed: () {
-                  //           _searchController.clear();
-                  //           setState(() {
-                  //             isSearching = false;
-                  //           });
-                  //         },
-                  //       )
-                  //     : IconButton(
-                  //         icon: Icon(
-                  //           Icons.search_rounded,
-                  //           // color: Colors.black,
-                  //         ),
-                  //         onPressed: () {
-                  //           // Add your voice recording functionality here
-                  //         },
-                  //       ),
-                ],
+                  ],
+                ),
               ),
-            ),
+              legends.isEmpty
+                  ? Center(child: CircularProgressIndicator())
+                  : Padding(
+                      padding: EdgeInsets.all(screenWidth * 0.04),
+                      child: GridView.builder(
+                        shrinkWrap: true,
+                        physics: NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: screenWidth * 0.04,
+                          mainAxisSpacing: screenHeight * 0.02,
+                          childAspectRatio: 0.75,
+                        ),
+                        itemCount: legends.length,
+                        itemBuilder: (context, index) {
+                          var legend = legends[index];
+                          return GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Legend(legend: legend),
+                                ),
+                              );
+                            },
+                            child: Container(
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(15.0),
+                                border: Border.all(color: Colors.white),
+                              ),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    width: double.infinity,
+                                    height: screenHeight * 0.2,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(20.0),
+                                      ),
+                                      image: DecorationImage(
+                                        fit: BoxFit.cover,
+                                        image: NetworkImage(legend['imgCover']),
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(
+                                    padding: EdgeInsets.all(screenWidth * 0.04),
+                                    child: Text(
+                                      legend['name'],
+                                      style: TextStyle(
+                                        fontSize: screenWidth * 0.04,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+            ],
           ),
         ),
-        SizedBox(
-          height: 5,
-        ),
-        GestureDetector(
-          onTap: () {
-            // Navigate to the second screen when the image is tapped
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Legend(),
-              ),
-            );
-          },
+      ),
+      bottomNavigationBar: BottomAppBar(
+        child: SizedBox(
+          height: 72,
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 128, // Adjust the height as needed
-                        width: 154,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                'https://th.bing.com/th/id/OIP.tYbmA3VYK2WRpopaIa0LnwHaFO?w=257&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7'),
-                            fit: BoxFit.cover,
-                          ),
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      Text(
-                        'Cairo',
-                        style: TextStyle(
-                            fontSize: 20,
-                            fontFamily: 'Poppins',
-                            // color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
+              bottom(
+                image: 'images/Menu 1.png',
+                ontap: () {
+                  Navigator.of(context).push(
+                      MaterialPageRoute(builder: (context) => HomePage()));
+                },
               ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  child: Column(
-                    children: [
-                      Container(
-                        height: 128, // Adjust the height as needed
-                        width: 154,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(
-                                'https://th.bing.com/th/id/OIP.tYbmA3VYK2WRpopaIa0LnwHaFO?w=257&h=180&c=7&r=0&o=5&dpr=1.3&pid=1.7'),
-                            fit: BoxFit.cover,
-                          ),
-                          color: Colors.amber,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                      ),
-                      Text(
-                        'Alexandria',
-                        style: TextStyle(
-                            fontFamily: 'Poppins',
-                            fontSize: 20,
-                            //color: Colors.black,
-                            fontWeight: FontWeight.bold),
-                      ),
-                    ],
-                  ),
-                ),
+              bottom(
+                image: 'images/Menu 2.png',
+                ontap: () {},
+              ),
+              bottom(
+                image: 'images/Menu 6.png',
+                ontap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => LegendCategory()));
+                },
+              ),
+              bottom(
+                image: 'images/Menu 7.png',
+                ontap: () {},
               ),
             ],
           ),
         ),
-      ]),
-      bottomNavigationBar: BottomAppBar(
-        height: 72,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            bottom(
-              image: 'images/Menu 1.png',
-              ontap: () {
-                Navigator.of(context)
-                    .push(MaterialPageRoute(builder: (context) => HomePage()));
-              },
-            ),
-            bottom(
-              image: 'images/Menu 2.png',
-              ontap: () {},
-              // text: 'Map',
-              // color: Color(0xff92929D),
-            ),
-            bottom(
-              image: 'images/Menu 6.png',
-              ontap: () {
-                Navigator.of(context).push(
-                    MaterialPageRoute(builder: (context) => LegendCategory()));
-              },
-              // text: 'legend',
-              // color: Color(0xff92929D),
-            ),
-            bottom(
-              image: 'images/Menu 7.png',
-              ontap: () {},
-              // text: 'AR',
-              // color: Color(0xff92929D),
-            ),
-          ],
-        ),
       ),
     );
   }
+
+  // Widget bottom({required String image, required Function() ontap}) {
+  //   return InkWell(
+  //     onTap: ontap,
+  //     child: Container(
+  //       height: 60,
+  //       width: 75,
+  //       decoration: BoxDecoration(
+  //         color: Colors.white,
+  //         borderRadius: BorderRadius.circular(50),
+  //       ),
+  //       child: Column(
+  //         mainAxisAlignment: MainAxisAlignment.center,
+  //         children: [
+  //           Image.asset(image, height: 60, width: 60),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
+}
+
+void main() {
+  runApp(MaterialApp(
+    debugShowCheckedModeBanner: false,
+    home: LegendCategory(),
+  ));
 }

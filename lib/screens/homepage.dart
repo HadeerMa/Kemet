@@ -4,15 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kemet/cubit/home_cubit_cubit.dart';
 import 'package:kemet/cubit/home_cubit_state.dart';
 import 'package:kemet/logic/core/api/dio_consumer.dart';
-import 'package:kemet/pages/account.dart';
-import 'package:kemet/screens/event-place.dart';
+import 'package:kemet/pages2/account.dart';
 import 'package:kemet/screens/legend_category.dart';
+import 'package:kemet/screens/offerList.dart';
 import 'package:kemet/screens/offers.dart';
-import 'package:kemet/screens/offers2.dart';
-
 import 'package:kemet/widget/bottomnavebar.dart';
 import 'package:kemet/widget/card.dart';
-import 'package:kemet/widget/governorates.dart';
 import 'package:kemet/widget/newgov.dart';
 import 'package:kemet/widget/text.dart';
 
@@ -95,19 +92,7 @@ class HomePage extends StatelessWidget {
                     SizedBox(
                       height: 20,
                     ),
-                    // Field(
-                    //   width: 354,
-                    //   height: 38,
-                    //   Picon: Icon(
-                    //     Icons.search,
-                    //   ),
-                    //   radius: BorderRadius.circular(8),
-                    //   Ltext: 'Search bar',
-                    // ),
-                    // SizedBox(
-                    //   height: 16,
-                    // ),
-                    //governorates(),
+                  
                     Governoratesnew(),
                     SizedBox(
                       height: 22,
@@ -139,45 +124,9 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    // SizedBox(
-                    //   height: 20,
-                    // ),
-
-                    // OfferScreen(),
-
-                    //  Expanded(
-                    //     child: SingleChildScrollView(
-                    //       child: Column(
-                    //         children: [
-                    //           SizedBox(height: 5),
-                    //           OfferScreen(),
-                    //           SizedBox(height: 5),
-                    //           Offer2Screen(),
-                    //         ],
-                    //       ),
-                    //     ),),
-                    //SizedBox(height: 20), // Adjusted height
-                    Expanded(child: OfferScreen()),
-                    // SizedBox(height: 5,),
-                    // Expanded(
-                    //     child: Offer2Screen()) // Moved OfferScreen widget here
-                    // Expanded(
-                    //   child: ListView.builder(
-                    //     //itemCount: 1,
-                    //     itemBuilder: (context, index) {
-                    //       return Padding(
-                    //         padding: EdgeInsets.only(
-                    //             bottom: 8.0), // Adjust the value as needed
-                    //         child: Column(
-                    //           children: [
-                    //             OfferScreen(),
-                    //             //Offer2Screen(),
-                    //           ],
-                    //         ),
-                    //       );
-                    //     },
-                    //   ),
-                    // ),
+                    
+                    Expanded(child: offerwidget()),
+                  
                   ],
                 ),
               ),

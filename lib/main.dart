@@ -3,17 +3,24 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kemet/cubit/createprofile_cubit.dart';
 import 'package:kemet/cubit/home_cubit_cubit.dart';
-import 'package:kemet/cubit/image_cubit_cubit.dart';
-import 'package:kemet/cubit/logout_cubit.dart';
+import 'package:kemet/cubit2/logout_cubit.dart';
 import 'package:kemet/logic/cache/cache_helper.dart';
 import 'package:kemet/logic/core/api/dio_consumer.dart';
-import 'package:kemet/providers/theme_provider.dart';
+import 'package:kemet/pages2/account.dart';
+import 'package:kemet/pages2/profile_page.dart';
+import 'package:kemet/pages2/setting.dart';
+import 'package:kemet/providers2/theme_provider.dart';
+import 'package:kemet/screens/book_ticket.dart';
+import 'package:kemet/screens/intro3.dart';
+import 'package:kemet/screens/login.dart';
 import 'package:kemet/screens/logo.dart';
+import 'package:kemet/screens/notification.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
+  
   runApp(const Kemet());
 }
 
@@ -46,6 +53,18 @@ class Kemet extends StatelessWidget {
                   Consumer<ThemeProvider>(builder: (context, themeProvider, _) {
                 return MaterialApp(
                   debugShowCheckedModeBanner: false,
+                  initialRoute: '/',
+      routes: {
+        //'/': (context) => HomeScreen(),
+        '/account': (context) => Account(),
+        '/settings': (context) => Setting(),
+        '/profile': (context) => ProfilePage(),
+        
+       '/BookTicket': (context) => BookTicket(),
+        '/NotificationScreen': (context) => NotificationScreen(),
+        '/HistoricScreen': (context) => HistoricScreen(),
+        '/login': (context) => login(),
+      },
                   //theme: ThemeData.light(),
                   //darkTheme: ThemeData.dark(),
                   //themeMode: currentMode,

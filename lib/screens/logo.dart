@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kemet/screens/book_ticket.dart';
+import 'package:kemet/screens/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Logo extends StatefulWidget {
   @override
@@ -9,12 +11,27 @@ class Logo extends StatefulWidget {
 class _LogoState extends State<Logo> {
   @override
   void initState() {
-    Future.delayed(Duration(seconds: 6), () {
-      Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => BookTicket()));
-    });
+    // Future.delayed(Duration(seconds: 5), () {
+    //   Navigator.pushReplacement(
+    //       context, MaterialPageRoute(builder: (context) => BookTicket()));
+    // }
+    // );
+    _checkOnboardingStatus();
     // TODO: implement initState
     super.initState();
+  }
+
+  _checkOnboardingStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isOnboardingCompleted = prefs.getBool('onboardingCompleted') ?? false;
+
+    Future.delayed(Duration(seconds: 6), () {
+      if (isOnboardingCompleted) {
+        Navigator.pushReplacementNamed(context, '/login');
+      } else {
+        Navigator.pushReplacementNamed(context, '/BookTicket');
+      }
+    });
   }
 
   @override
@@ -23,17 +40,17 @@ class _LogoState extends State<Logo> {
         body: Container(
       height: double.infinity,
       width: double.infinity,
-      decoration: BoxDecoration(color: Color.fromARGB(255, 255, 255, 255)),
+    //  decoration: BoxDecoration(color: Color.fromARGB(255, 255, 255, 255)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: 500,
-            width: 500,
+            height:350,
+            width: 350,
             decoration: BoxDecoration(
               image: const DecorationImage(
                 image: AssetImage(
-                  "images/WhatsApp Image 2024-02-06 at 13.22.00_6be86089.jpg",
+                  "images/cropPhoto.png",
                 ),
               ),
             ),

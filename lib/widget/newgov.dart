@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kemet/cubit/newgov_dart_cubit.dart';
 import 'package:kemet/cubit/newgov_dart_state.dart';
+import 'package:kemet/logic/cache/cache_helper.dart';
 import 'package:kemet/logic/core/api/dio_consumer.dart';
+import 'package:kemet/logic/core/api/end_ponits.dart';
 import 'package:kemet/screens/governates_screens.dart';
 import 'package:kemet/screens/torist_place.dart';
 import 'package:kemet/widget/imagegover.dart';
@@ -33,7 +35,7 @@ class Governoratesnew extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Container(
-                        height: 250,
+                        height: 240,
                         child: ListView.builder(
                           scrollDirection: Axis.horizontal,
                           itemCount: state.governorates.length +
@@ -41,14 +43,20 @@ class Governoratesnew extends StatelessWidget {
                           itemBuilder: (context, index) {
                             if (index < state.governorates.length) {
                               final governorate = state.governorates[index];
+                            
+
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 5),
                                 child: imagecover(
+                                
                                   ontap: () {
+                                   // final idgovernrate = CacheHelper().getDataString(key: ApiKey.idgovernrate);
+                                                               //final governate = state[index];
+
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => ToristPlace(),
+                                        builder: (context) => ToristPlace(governateId: governorate.id,),
                                       ),
                                     );
                                   },
@@ -113,17 +121,7 @@ class Governoratesnew extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // SizedBox(
-                    //   width: 15, // Adjust the width as needed
-                    //   height: 32, // Adjust the height as needed
-                    //   child: IconButton(
-                    //     iconSize: 16, // Adjust the icon size as needed
-                    //     icon: Icon(Icons.arrow_forward),
-                    //     onPressed: () {
-                    //       // Scroll left logic
-                    //     },
-                    //   ),
-                    // ),
+                   
                   ],
                 ),
               ],

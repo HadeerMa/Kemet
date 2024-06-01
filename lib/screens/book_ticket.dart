@@ -96,9 +96,8 @@ class BookTicket extends StatelessWidget {
                       ),
 
                       onPressed: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => NotificationScreen()));
-                      },
+            Navigator.pushReplacementNamed(context, '/NotificationScreen');
+          },
                     )),
               ],
             ),

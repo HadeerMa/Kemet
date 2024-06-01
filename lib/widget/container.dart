@@ -21,8 +21,11 @@ class BoxConatiner extends StatelessWidget {
           border: Border.all(//color of border
             width: 2,
             //width of border
+           color: Colors.grey
+            
           ),
           borderRadius: BorderRadius.circular(10),
+          
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
