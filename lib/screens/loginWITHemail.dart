@@ -45,9 +45,9 @@ class _logEmailState extends State<logEmail> {
                 return HomePage();
               }),
             );
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.msg)),
-            );
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   SnackBar(content: Text(state.msg)),
+            // );
           } 
           else if (state is SignInError) {
             showCustomPopupError(context);

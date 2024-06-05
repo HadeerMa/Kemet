@@ -41,12 +41,12 @@ class _Create_PasswordState extends State<Create_Password> {
       create: (context) => createpasswordCubit(api: DioConsumer(dio: Dio())),
       child: BlocConsumer<createpasswordCubit, createpasswordstate>(
         listener: (context, state) {
-          // TODO: implement listener
+       
           if (state is createpasswordSuccess) {
             Navigator.push(
               context,
               MaterialPageRoute(builder: (BuildContext context) {
-                return CreateProfilePage();
+                return const CreateProfilePage();
               }),
             );
             ScaffoldMessenger.of(context).showSnackBar(
@@ -62,7 +62,7 @@ class _Create_PasswordState extends State<Create_Password> {
         builder: (context, state) {
           return Scaffold(
             appBar: AppBar(
-              title: Text(
+              title:const Text(
                 'Create Password',
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
               ),
@@ -85,14 +85,14 @@ class _Create_PasswordState extends State<Create_Password> {
                   key:
                       context.read<createpasswordCubit>().createpasswordFormKey,
                   child: Column(children: [
-                    SizedBox(height: 190),
+                   const SizedBox(height: 190),
                     SLtext(
                       text: 'Create a password',
                       //color: Color(0xff000000),
                       size: 20,
                       weight: FontWeight.w600,
                     ),
-                    SizedBox(
+                  const  SizedBox(
                       height: 20,
                     ),
                     SLtext(
@@ -101,7 +101,7 @@ class _Create_PasswordState extends State<Create_Password> {
                       size: 14,
                       weight: FontWeight.w500,
                     ),
-                    SizedBox(
+                  const  SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -116,36 +116,36 @@ class _Create_PasswordState extends State<Create_Password> {
                           labelText: 'Password',
                           hintText: 'Enter New Password',
                           floatingLabelStyle:
-                              TextStyle(color: Color(0xffB68B25)),
+                             const TextStyle(color: Color(0xffB68B25)),
                           suffixIcon: IconButton(
                               icon: Icon(
                                 _isObscure
                                     ? Icons.visibility_off
                                     : Icons.visibility,
-                                color: Color(0xffB68B25),
+                                color:const Color(0xffB68B25),
                               ),
                               onPressed: () {
                                 setState(() {
                                   _isObscure = !_isObscure;
                                 });
                               }),
-                          prefixIcon: Icon(
+                          prefixIcon:const Icon(
                             Icons.lock,
                             color: Color(0xffB68B25),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Color(0xff252836)),
+                            borderSide:const BorderSide(color: Color(0xff252836)),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Color(0xffB68B25)),
+                            borderSide:const BorderSide(color: Color(0xffB68B25)),
                           ),
                         ),
                         
                       ),
                     ),
-                    SizedBox(
+                  const  SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -160,43 +160,41 @@ class _Create_PasswordState extends State<Create_Password> {
                           labelText: 'Confirm Password',
                           hintText: 'Enter Confirm Password',
                           floatingLabelStyle:
-                              TextStyle(color: Color(0xffB68B25)),
+                            const  TextStyle(color: Color(0xffB68B25)),
                           suffixIcon: IconButton(
                               icon: Icon(
                                 _isObscureConfirm
                                     ? Icons.visibility_off
                                     : Icons.visibility,
-                                color: Color(0xffB68B25),
+                                color:const Color(0xffB68B25),
                               ),
                               onPressed: () {
                                 setState(() {
                                   _isObscureConfirm = !_isObscureConfirm;
                                 });
                               }),
-                          prefixIcon: Icon(
+                          prefixIcon:const Icon(
                             Icons.lock,
                             color: Color(0xffB68B25),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Color(0xff252836)),
+                            borderSide:const BorderSide(color: Color(0xff252836)),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Color(0xffB68B25)),
+                            borderSide:const BorderSide(color: Color(0xffB68B25)),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(height: 20),
-                    // PasswordStrengthChecker(
-                    //   strength: passNotifier,
-                    // ),
-                    SizedBox(
+                   const SizedBox(height: 20),
+                  
+                   const SizedBox(
                       height: 40,
                     ),
 
-                    SizedBox(
+                   const SizedBox(
                       height: 140,
                     ),
                     state is createpasswordLoading

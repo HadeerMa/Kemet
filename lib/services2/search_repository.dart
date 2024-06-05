@@ -11,8 +11,9 @@ class SearchRepository {
     final url =
         'https://kemet-gp2024.onrender.com/api/v1/tourismPlaces?keyword=$encodedKeyword';
     print('Search URL: $url');
-    final response = await http.get(Uri.parse(url));
-
+    final response = await http.get(Uri.parse(url),headers: {
+      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjU0OWE5M2NiZDM0NmYwZTJiNGU4YmMiLCJyb2xlIjoidXNlciIsImlhdCI6MTcxNjkwODQ2NX0.IRooS9LricFdGtXQ8jaPIE8OQBazXUQp3kkFfzN_w4g'
+    });
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       print('API Response: $data');
@@ -41,13 +42,14 @@ class SearchRepository {
       throw Exception('Failed to fetch search results');
     }
   }
-
   Future<List<Map<String, dynamic>>> governorateSearch(String keyword) async {
     final encodedKeyword = Uri.encodeComponent(keyword);
     final url =
         'https://kemet-gp2024.onrender.com/api/v1/governrates?keyword=$encodedKeyword';
     print('Search URL: $url');
-    final response = await http.get(Uri.parse(url));
+    final response = await http.get(Uri.parse(url),headers: {
+      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjU0OWE5M2NiZDM0NmYwZTJiNGU4YmMiLCJyb2xlIjoidXNlciIsImlhdCI6MTcxNjkwODQ2NX0.IRooS9LricFdGtXQ8jaPIE8OQBazXUQp3kkFfzN_w4g'
+    });
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -74,7 +76,9 @@ class SearchRepository {
     final url =
         'https://kemet-gp2024.onrender.com/api/v1/legends?keyword=$encodedKeyword';
     print('Search URL: $url');
-    final response = await http.get(Uri.parse(url));
+    final response = await http.get(Uri.parse(url),headers: {
+      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjU0OWE5M2NiZDM0NmYwZTJiNGU4YmMiLCJyb2xlIjoidXNlciIsImlhdCI6MTcxNjkwODQ2NX0.IRooS9LricFdGtXQ8jaPIE8OQBazXUQp3kkFfzN_w4g'
+    });
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -98,20 +102,6 @@ class SearchRepository {
     } else {
       print('Failed to fetch search results: ${response.statusCode}');
       throw Exception('Failed to fetch search results');
-    }
-  }
-
-  Future<List<Map<String, dynamic>>> getSearchHistory() async {
-    const url = '';
-    final response = await http.get(Uri.parse(url));
-
-    if (response.statusCode == 200) {
-      final data = json.decode(response.body);
-      final List<Map<String, dynamic>> history =
-          List<Map<String, dynamic>>.from(data['history']);
-      return history;
-    } else {
-      throw Exception('Failed to fetch search history');
     }
   }
 }

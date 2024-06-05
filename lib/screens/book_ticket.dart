@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:kemet/screens/notification.dart';
 
 // ignore: must_be_immutable
 class BookTicket extends StatelessWidget {
   Color color = Color(0xFFe7dabb);
+
+  BookTicket({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +13,7 @@ class BookTicket extends StatelessWidget {
         children: [
           Container(
             height: 500,
-            decoration: BoxDecoration(
+            decoration: const BoxDecoration(
               color: Color(0xFFb7891b),
               borderRadius: BorderRadius.vertical(
                 bottom: Radius.elliptical(700, 190),
@@ -25,10 +26,10 @@ class BookTicket extends StatelessWidget {
               ),
             ),
           ),
-          SizedBox(
+         const SizedBox(
             height: 60,
           ),
-          Padding(
+         const Padding(
             padding: EdgeInsets.only(right: 10, left: 10),
             child: Text(
               ' Book Your Ticket ',
@@ -44,22 +45,22 @@ class BookTicket extends StatelessWidget {
                   ]),
             ),
           ),
-          SizedBox(
+         const SizedBox(
             height: 70,
           ),
           Padding(
-            padding: EdgeInsets.only(left: 15),
+            padding:const EdgeInsets.only(left: 15),
             child: Row(
               children: [
                 Container(
                   width: 30,
                   height: 10,
                   decoration: BoxDecoration(
-                      color: Color(0xFFb7891b),
+                      color:const Color(0xFFb7891b),
                       shape: BoxShape.rectangle,
                       borderRadius: BorderRadius.circular(20)),
                 ),
-                SizedBox(
+               const SizedBox(
                   width: 15,
                 ), // Adjust the spacing between points as needed
                 Container(
@@ -70,7 +71,7 @@ class BookTicket extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                 ),
-                SizedBox(
+               const SizedBox(
                     width: 13,
                     height: 10), // Adjust the spacing between points as needed
                 Container(
@@ -81,7 +82,7 @@ class BookTicket extends StatelessWidget {
                     shape: BoxShape.circle,
                   ),
                 ),
-                SizedBox(
+               const SizedBox(
                   width: 200,
                 ),
                 Container(
@@ -89,8 +90,8 @@ class BookTicket extends StatelessWidget {
                     height: 80,
                     child: new IconButton(
                       //padding: new EdgeInsets.all(),
-                      color: Color(0xFFb7891b),
-                      icon: Icon(
+                      color:const Color(0xFFb7891b),
+                      icon: const Icon(
                         Icons.arrow_circle_right_outlined,
                         size: 70,
                       ),

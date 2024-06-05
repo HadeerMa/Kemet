@@ -28,7 +28,9 @@ class _MyTripOfPlaceState extends State<MyTripOfPlace> {
       final token = CacheHelper().getDataString(key: ApiKey.token);
 
       final response = await dio.get(
-        'https://kemet-gp2024.onrender.com/api/v1/trips/$tripId',
+        'https://kemet-gp2024.onrender.com/api/v1/trips/$tripId', options: Options(
+          headers: {'token': token},
+        ),
       );
 
       if (response.statusCode == 200) {

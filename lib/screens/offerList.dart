@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:kemet/logic/cache/cache_helper.dart';
+import 'package:kemet/logic/core/api/end_ponits.dart';
 import 'package:kemet/screens/specificOffer.dart';
 
 class TouristPlace {
@@ -41,10 +43,14 @@ class _OfferScreenState extends State<OfferScreen> {
 
   Future<void> initializeTouristPlaces() async {
     final dio = Dio();
+          final token = CacheHelper().getDataString(key: ApiKey.token);
+
     const url = 'https://kemet-gp2024.onrender.com/api/v1/offers';
 
     try {
-      final response = await dio.get(url);
+      final response = await dio.get(url, options: Options(
+          headers: {'token': token},
+        ),);
       if (response.statusCode == 200) {
         final responseData = response.data;
         final List<dynamic> offers = responseData['offers'];

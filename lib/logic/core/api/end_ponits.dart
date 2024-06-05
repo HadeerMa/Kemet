@@ -10,7 +10,7 @@ class EndPoint {
   static String resetPassword = "auth/resetPassword";
   static String changePassword = "auth/changePassword";
   static String profile = "auth/profile";
-  static String governrates = "governrates";
+  static String governrates = "governrates?sort=createdAt";
     static String offers = "offers";
   static String getChangePasswordEndPoint =
       "https://kemet-gp2024.onrender.com/api/v1/auth/changePassword";

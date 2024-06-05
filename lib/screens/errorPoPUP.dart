@@ -49,9 +49,9 @@ class ErrorPoP extends StatelessWidget {
               ElevatedButton(
                 style: const ButtonStyle(
                   backgroundColor:
-                      MaterialStatePropertyAll<Color>(Color(0xffB68B25)),
-                  minimumSize: MaterialStatePropertyAll(Size(340, 50)),
-                  shape: MaterialStatePropertyAll(RoundedRectangleBorder(
+                      WidgetStatePropertyAll<Color>(Color(0xffB68B25)),
+                  minimumSize: WidgetStatePropertyAll(Size(340, 50)),
+                  shape: WidgetStatePropertyAll(RoundedRectangleBorder(
                     borderRadius: BorderRadius.all(Radius.circular(12)),
                   )),
                 ),

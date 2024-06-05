@@ -5,6 +5,7 @@ import 'package:kemet/logic/cache/cache_helper.dart';
 import 'package:kemet/logic/core/api/end_ponits.dart';
 import 'package:kemet/pages2/account.dart';
 import 'package:kemet/pages2/legand.dart';
+import 'package:kemet/pages2/legand_search.dart';
 import 'package:kemet/screens/homepage.dart';
 import 'package:kemet/widget/bottomnavebar.dart';
 
@@ -185,22 +186,30 @@ class _LegendCategoryState extends State<LegendCategory> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: Container(
-                        height: screenHeight * 0.05,
-                        child: Row(
-                          children: [
-                            SizedBox(width: screenWidth * 0.01),
-                            Icon(Icons.search),
-                            SizedBox(width: screenWidth * 0.03),
-                            Text(
-                              'Search',
-                              style: TextStyle(fontFamily: 'Poppins'),
-                            ),
-                          ],
-                        ),
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: Colors.grey),
+                      child: GestureDetector(
+                         onTap: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (context) => LegendSearch()),
+                      );
+                    },
+                        child: Container(
+                          height: screenHeight * 0.05,
+                          child: Row(
+                            children: [
+                              SizedBox(width: screenWidth * 0.01),
+                              Icon(Icons.search),
+                              SizedBox(width: screenWidth * 0.03),
+                              Text(
+                                'Search',
+                                style: TextStyle(fontFamily: 'Poppins'),
+                              ),
+                            ],
+                          ),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.grey),
+                          ),
                         ),
                       ),
                     ),

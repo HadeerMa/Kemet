@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
+import 'package:kemet/logic/cache/cache_helper.dart';
+import 'package:kemet/logic/core/api/end_ponits.dart';
 import 'package:kemet/models2/favorites_trip.dart';
 import 'package:kemet/models2/trip_model.dart';
 import 'package:kemet/pages2/trip.dart';
@@ -15,6 +17,8 @@ class _TripsScreenState extends State<TripsScreen> {
   bool isLoading = true;
   bool isError = false;
   Dio dio = Dio();
+        final token = CacheHelper().getDataString(key: ApiKey.token);
+
   @override
   void initState() {
     super.initState();
@@ -23,7 +27,9 @@ class _TripsScreenState extends State<TripsScreen> {
 
   Future<void> fetchTrips() async {
     try {
-      Response response = await dio.get(apiUrl);
+      Response response = await dio.get(apiUrl, options: Options(
+          headers: {'token': token},
+        ),);
       if (response.statusCode == 200) {
         List<dynamic> data = response.data['document'];
         List<Trips> loadedTrips = data.map((tripData) {

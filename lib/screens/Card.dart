@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 import 'package:kemet/screens/offers.dart';
 
 class OfferScreen2 extends StatelessWidget {
   final TouristPlace place;
 
-  const OfferScreen2({Key? key, required this.place}) : super(key: key);
+  const OfferScreen2({super.key, required this.place});
 
   @override
   Widget build(BuildContext context) {
-    TextStyle titleStyle = TextStyle(
+    TextStyle titleStyle = const TextStyle(
       fontSize: 20,
       fontWeight: FontWeight.bold,
     );
 
-    TextStyle descriptionStyle = TextStyle(
+    TextStyle descriptionStyle = const TextStyle(
       fontSize: 14,
-      color: const Color.fromARGB(255, 113, 111, 111),
+      color:  Color.fromARGB(255, 113, 111, 111),
     );
 
     return Scaffold(
@@ -30,12 +29,12 @@ class OfferScreen2 extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                  icon: Icon(Icons.arrow_back_ios_new_rounded),
+                  icon:const Icon(Icons.arrow_back_ios_new_rounded),
                   onPressed: () {
                     Navigator.of(context).pop();
                   },
                 ),
-                Text(
+               const Text(
                   'Best Offers',
                   style: TextStyle(
                     fontSize: 30,
@@ -43,7 +42,7 @@ class OfferScreen2 extends StatelessWidget {
                     fontFamily: 'Poppins',
                   ),
                 ),
-                SizedBox(width: 40), // Adjust as needed
+                const SizedBox(width: 40), // Adjust as needed
               ],
             ),
             Padding(
@@ -74,7 +73,7 @@ class OfferScreen2 extends StatelessWidget {
                             ),
                             Expanded(
                               child: Container(
-                                decoration: BoxDecoration(
+                                decoration:const BoxDecoration(
                                   border: Border(
                                     right: BorderSide(
                                       color: Colors.black,
@@ -95,7 +94,7 @@ class OfferScreen2 extends StatelessWidget {
                                   ),
                                 ),
                                 child: Padding(
-                                  padding: EdgeInsets.all(8.0),
+                                  padding:const EdgeInsets.all(8.0),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -106,7 +105,7 @@ class OfferScreen2 extends StatelessWidget {
                                           style: titleStyle,
                                         ),
                                       ),
-                                      SizedBox(
+                                     const SizedBox(
                                         height: 8.0,
                                       ),
                                       Text(
@@ -115,7 +114,7 @@ class OfferScreen2 extends StatelessWidget {
                                         maxLines: 2,
                                         overflow: TextOverflow.ellipsis,
                                       ),
-                                      SizedBox(height: 8),
+                                     const SizedBox(height: 8),
                                       Container(
                                         height: 40, // Fixed height for price and quantity
                                         child: Row(
@@ -124,14 +123,14 @@ class OfferScreen2 extends StatelessWidget {
                                           children: [
                                             Text(
                                               '\$${place.price.toStringAsFixed(2)}', // Display price formatted as currency
-                                              style: TextStyle(
+                                              style:const TextStyle(
                                                 fontWeight: FontWeight.bold,
                                                 fontSize: 14,
                                               ),
                                             ),
                                             Text(
                                               'Qty: ${place.quantity}',
-                                              style: TextStyle(
+                                              style:const TextStyle(
                                                 fontSize: 14,
                                               ),
                                             ),

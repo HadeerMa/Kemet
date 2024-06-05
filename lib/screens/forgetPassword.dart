@@ -29,21 +29,21 @@ class ForgetPassword extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
             children: [
-              SizedBox(height: 195),
+             const SizedBox(height: 195),
               SLtext(
                 text: 'Forget Password',
                 
                 size: 32,
                 weight: FontWeight.w700,
               ),
-              SizedBox(height: 20),
+             const SizedBox(height: 20),
               SLtext(
                 text: "Please choose a recovery method",
-                color: Color(0xff92929D),
+                color:const Color(0xff92929D),
                 size: 16,
                 weight: FontWeight.w500,
               ),
-              SizedBox(height: 20),
+             const SizedBox(height: 20),
               BoxConatiner(
                 text: "Email",
                
@@ -58,14 +58,14 @@ class ForgetPassword extends StatelessWidget {
                   );
                 },
               ),
-              SizedBox(height: 270),
+            const  SizedBox(height: 270),
               button(
                 text: 'Login',
                 ontap: () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (BuildContext context) {
-                      return logEmail();
+                      return const logEmail();
                     }),
                   );
                 },

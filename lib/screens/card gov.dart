@@ -4,7 +4,7 @@ import 'package:kemet/models2/favorites_tourism.dart';
 class CategoryCard extends StatelessWidget {
   final Governate governate;
 
-  const CategoryCard({required this.governate});
+  const CategoryCard({super.key, required this.governate});
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +22,7 @@ class CategoryCard extends StatelessWidget {
             width: double.infinity,
             height: 150,
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(20.0)),
+              borderRadius: const BorderRadius.all(Radius.circular(20.0)),
               image: DecorationImage(
                 image: NetworkImage(governate.image),
                 fit: BoxFit.cover,
@@ -36,7 +36,7 @@ class CategoryCard extends StatelessWidget {
               children: [
                 Text(
                   governate.name,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),

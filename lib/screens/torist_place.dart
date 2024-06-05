@@ -1,5 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:kemet/logic/cache/cache_helper.dart';
+import 'package:kemet/logic/core/api/end_ponits.dart';
 import 'package:kemet/models2/favorites_tourism.dart';
 import 'package:kemet/pages2/history_of_place.dart';
 import 'package:kemet/screens/homepage.dart';
@@ -29,7 +31,11 @@ class _ToristPlaceState extends State<ToristPlace> {
 
     try {
       Dio dio = Dio();
-      Response response = await dio.get(apiUrl);
+            final token = CacheHelper().getDataString(key: ApiKey.token);
+
+      Response response = await dio.get(apiUrl, options: Options(
+          headers: {'token': token},
+        ),);
 
       if (response.statusCode == 200) {
         final List<dynamic> documents = response.data['document'];

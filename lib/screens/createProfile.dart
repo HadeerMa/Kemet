@@ -10,11 +10,13 @@ import 'package:kemet/screens/errorPoPUP.dart';
 import 'package:kemet/widget/Button.dart';
 import 'package:kemet/widget/text.dart';
 import 'package:kemet/widget/textField.dart';
-
 import '../components2/edit_photo2.dart';
 
 class CreateProfilePage extends StatefulWidget {
+  const CreateProfilePage({super.key});
+
   @override
+  // ignore: library_private_types_in_public_api
   _CreateProfilePageState createState() => _CreateProfilePageState();
 }
 
@@ -25,11 +27,10 @@ final TextEditingController createcityController = TextEditingController();
 final TextEditingController createdateController = TextEditingController();
 
 class _CreateProfilePageState extends State<CreateProfilePage> {
-  // String fullName = '';
-  // String email = '';
+ 
   late DioConsumer dioConsumer;
   late createprofileCubit cubit;
-  //late ImageCubitCubit imageCubit;
+ 
 
   @override
   void initState() {
@@ -42,39 +43,13 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
   DateTime selectedDate = DateTime.now();
   TextEditingController dateController = TextEditingController();
 
-  void _selectDate(BuildContext context) async {
-    final DateTime? picked = await showDatePicker(
-      context: context,
-      initialDate: selectedDate,
-      firstDate: DateTime(1900),
-      lastDate: DateTime.now(),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: ThemeData.light().copyWith(
-            primaryColor: Color(0xffB68B25),
-            hintColor: Color(0xffB68B25),
-            colorScheme: ColorScheme.light(primary: Color(0xffB68B25)),
-            buttonTheme: ButtonThemeData(textTheme: ButtonTextTheme.primary),
-            dialogBackgroundColor: Colors.white,
-          ),
-          child: child!,
-        );
-      },
-    );
-    if (picked != null && picked != selectedDate) {
-      setState(() {
-        selectedDate = picked;
-        dateController.text = picked.toString().substring(0, 10);
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         //backgroundColor: Colors.transparent,
-        title: Text(
+        title: const Text(
           'Create Profile',
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 25),
         ),
@@ -93,12 +68,11 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
           create: (context) => createprofileCubit(api: DioConsumer(dio: Dio())),
           child: BlocConsumer<createprofileCubit, createprofilestate>(
             listener: (context, state) {
-              // TODO: implement listener
               if (state is createprofileSuccess) {
                 showCustomPopupCongrats(context);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.msg)),
-                );
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(content: Text(state.msg)),
+                // );
               } else if (state is createprofileError) {
                 showCustomPopupError(context);
                 // ScaffoldMessenger.of(context).showSnackBar(
@@ -113,9 +87,9 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                   key: context.read<createprofileCubit>().createprofileFormKey,
                   child: Column(
                     children: [
-                                         PickImageWidget(),
+                    const PickImageWidget(),
 
-                      SizedBox(height: 60),
+                     const SizedBox(height: 60),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
@@ -124,7 +98,7 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                             size: 14,
                             weight: FontWeight.w400,
                           ),
-                          SizedBox(
+                         const SizedBox(
                             height: 15,
                           ),
                           Field(
@@ -137,13 +111,13 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                             height: 44,
                             radius: BorderRadius.circular(8),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           SLtext(
                             text: 'Last Name',
                             size: 14,
                             weight: FontWeight.w400,
                           ),
-                          SizedBox(
+                         const SizedBox(
                             height: 15,
                           ),
                           Field(
@@ -156,13 +130,13 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                             height: 44,
                             radius: BorderRadius.circular(8),
                           ),
-                          SizedBox(height: 20),
+                          const SizedBox(height: 20),
                           SLtext(
                             text: 'City',
                             size: 14,
                             weight: FontWeight.w400,
                           ),
-                          SizedBox(
+                         const SizedBox(
                             height: 15,
                           ),
                           Field(
@@ -175,13 +149,13 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                             height: 44,
                             radius: BorderRadius.circular(8),
                           ),
-                          SizedBox(height: 20),
+                         const SizedBox(height: 20),
                           SLtext(
                             text: 'Date of Birth',
                             size: 14,
                             weight: FontWeight.w400,
                           ),
-                          SizedBox(
+                         const SizedBox(
                             height: 15,
                           ),
                           Field(
@@ -194,45 +168,10 @@ class _CreateProfilePageState extends State<CreateProfilePage> {
                             height: 44,
                             radius: BorderRadius.circular(8),
                           ),
-                          // Container(
-                          //   height: 44,
-                          //   width: 354,
-                          //   child: TextField(
-                          //     controller: dateController,
-                          //     readOnly: true,
-                          //     decoration: InputDecoration(
-                          //       labelText: 'Date of Birth',
-                          //       floatingLabelStyle:
-                          //           TextStyle(color: Color(0xffB68B25)),
-                          //       border: OutlineInputBorder(
-                          //         borderSide:
-                          //             BorderSide(color: Color(0xff252836)),
-                          //       ),
-                          //       focusedBorder: OutlineInputBorder(
-                          //         borderRadius: BorderRadius.circular(8.0),
-                          //         borderSide:
-                          //             BorderSide(color: Color(0xffB68B25)),
-                          //       ),
-                          //       suffixIcon: IconButton(
-                          //         icon: Icon(Icons.calendar_today),
-                          //         onPressed: () => _selectDate(context),
-                          //         color: Color(0xffB68B25),
-                          //       ),
-                          //     ),
-                          //     onTap: () => _selectDate(context),
-                          //     onChanged: (value) {
-                          //       // Update both controllers when the text changes
-                          //       dateController.text = value;
-                          //       context
-                          //           .read<createprofileCubit>()
-                          //           .createdateController
-                          //           .text = value;
-                          //     },
-                          //   ),
-                          // ),
+                        
                         ],
                       ),
-                      SizedBox(height: 100),
+                     const SizedBox(height: 100),
                       state is createpasswordLoading
                           ? const CircularProgressIndicator()
                           : button(

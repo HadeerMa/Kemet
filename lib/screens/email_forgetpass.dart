@@ -24,7 +24,7 @@ class Email_ForgetPass extends StatelessWidget {
       create: (context) =>EmailForgetCubit(api: DioConsumer(dio: Dio())),
       child: BlocConsumer<EmailForgetCubit, EmailForgetstate>(
         listener: (context, state) {
-          // TODO: implement listener
+      
 
           if (state is EmailForgetSuccess) {
             ScaffoldMessenger.of(context).showSnackBar(
@@ -65,20 +65,20 @@ class Email_ForgetPass extends StatelessWidget {
 
                   child: Column(
                     children: [
-                      SizedBox(height: 195),
+                    const  SizedBox(height: 195),
                       SLtext(
                         text: 'Enter your Email',
                         size: 20,
                         weight: FontWeight.w600,
                       ),
-                      SizedBox(height: 20),
+                     const SizedBox(height: 20),
                       SLtext(
                         text: "We will send a confirmation code to your Email",
-                        color: Color(0xff92929D),
+                        color:const Color(0xff92929D),
                         size: 14,
                         weight: FontWeight.w500,
                       ),
-                      SizedBox(height: 20),
+                    const  SizedBox(height: 20),
                       Container(
                         width: 354,
                         height: 44,
@@ -89,25 +89,25 @@ class Email_ForgetPass extends StatelessWidget {
                           decoration: InputDecoration(
                             labelText: 'Email',
                             hintText: 'Enter Your Email',
-                            prefixIcon: Icon(
+                            prefixIcon:const Icon(
                               Icons.email,
                               color: Color(0xffB68B25),
                             ),
                             floatingLabelStyle:
-                                TextStyle(color: Color(0xffB68B25)),
+                             const  TextStyle(color: Color(0xffB68B25)),
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(),
+                              borderSide:const BorderSide(),
                             ),
                             focusedBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8),
-                              borderSide: BorderSide(color: Color(0xffB68B25)),
+                              borderSide:const BorderSide(color: Color(0xffB68B25)),
                             ),
                           ),
                         
                         ),
                       ),
-                      SizedBox(height: 270),
+                    const  SizedBox(height: 270),
                        state is EmailForgetLoading
                           ? const CircularProgressIndicator()
                           : button(

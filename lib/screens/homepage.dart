@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kemet/Map/open_street_map_search_and_pick.dart';
 import 'package:kemet/cubit/home_cubit_cubit.dart';
 import 'package:kemet/cubit/home_cubit_state.dart';
 import 'package:kemet/logic/core/api/dio_consumer.dart';
@@ -12,6 +13,8 @@ import 'package:kemet/widget/bottomnavebar.dart';
 import 'package:kemet/widget/card.dart';
 import 'package:kemet/widget/newgov.dart';
 import 'package:kemet/widget/text.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
+
 
 class HomePage extends StatelessWidget {
   HomePage({super.key});
@@ -25,7 +28,7 @@ class HomePage extends StatelessWidget {
         ..fetchUserData(dioConsumer.dio),
       child: BlocConsumer<UserDataCubit, UserDataState>(
         listener: (context, state) {
-          // TODO: implement listener
+         
         },
         builder: (context, state) {
           if (state is UserDataSuccess) {
@@ -38,7 +41,7 @@ class HomePage extends StatelessWidget {
                 ),
                 child: Column(
                   children: [
-                    SizedBox(
+                  const  SizedBox(
                       height: 55,
                     ),
                     Row(
@@ -48,7 +51,7 @@ class HomePage extends StatelessWidget {
                           child: GestureDetector(
                             onTap: () {
                               Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => Account()));
+                                  builder: (context) =>const Account()));
                             },
                             child: Container(
                               width: 50,
@@ -61,7 +64,7 @@ class HomePage extends StatelessWidget {
                             ),
                           ),
                         ),
-                        SizedBox(
+                       const SizedBox(
                           width: 20,
                         ),
                         Container(
@@ -79,7 +82,7 @@ class HomePage extends StatelessWidget {
                               ),
                               SLtext(
                                 text: "Let's take a tour in Egypt",
-                                color: Color(0xff92929D),
+                                color:const Color(0xff92929D),
                                 weight: FontWeight.w500,
                                 size: 12,
                                 overflow: TextOverflow.ellipsis,
@@ -89,12 +92,12 @@ class HomePage extends StatelessWidget {
                         ),
                       ],
                     ),
-                    SizedBox(
+                   const SizedBox(
                       height: 20,
                     ),
                   
-                    Governoratesnew(),
-                    SizedBox(
+                     Governoratesnew(),
+                   const SizedBox(
                       height: 22,
                     ),
                     Row(
@@ -118,14 +121,14 @@ class HomePage extends StatelessWidget {
                             text: 'See more',
                             weight: FontWeight.w600,
                             size: 12,
-                            color: Color(0xffB68B25),
+                            color:const Color(0xffB68B25),
                             decoration: TextDecoration.underline,
                           ),
                         ),
                       ],
                     ),
                     
-                    Expanded(child: offerwidget()),
+                   Expanded(child: offerwidget()),
                   
                   ],
                 ),
@@ -144,9 +147,26 @@ class HomePage extends StatelessWidget {
                     ),
                     bottom(
                       image: 'images/Menu 2.png',
-                      ontap: () {},
+                    ontap: () {
+  Navigator.of(context).push(MaterialPageRoute(
+    builder: (context) => Material(
+      child: OpenStreetMapSearchAndPick(
+        buttonTextStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.normal),
+        // buttonColor: Colors.g,
+        // buttonText: 'Set Current Location',
+        onPicked: (pickedData) {
+          print(pickedData.latLong.latitude);
+          print(pickedData.latLong.longitude);
+          print(pickedData.address);
+        },
+        calculateRoute: (LatLng) {},
+      ),
+    ),
+  ));
+},
                       // text: 'Map',
                       // color: Color(0xff92929D),
+                      
                     ),
                     bottom(
                       image: 'images/legendgray.png',
@@ -159,7 +179,16 @@ class HomePage extends StatelessWidget {
                     ),
                     bottom(
                       image: 'images/Menu 7.png',
-                      ontap: () {},
+                      ontap: () async {
+                      var openAppResult = await LaunchApp.openApp(
+                        androidPackageName: 'com.DefaultCompany.TestNowDeleteLater',
+                      );
+                      print(
+                          'openAppResult => $openAppResult ${openAppResult.runtimeType}');
+                      // Enter thr package name of the App you want to open and for iOS add the URLscheme to the Info.plist file.
+                      // The second arguments decide wether the app redirects PlayStore or AppStore.
+                      // For testing purpose you can enter com.instagram.android
+                    },
                       // text: 'AR',
                       // color: Color(0xff92929D),
                     ),

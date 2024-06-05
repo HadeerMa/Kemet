@@ -37,7 +37,7 @@ class _Create_PasswordState extends State<Create_ForgetPassword> {
       create: (context) => ResetPasswordCubit(api: DioConsumer(dio: Dio())),
       child: BlocConsumer<ResetPasswordCubit, ResetPasswordstate>(
         listener: (context, state) {
-          // TODO: implement listener
+         
           if (state is ResetPasswordSuccess) {
             showCustomPopupCongrats(context);
 
@@ -73,13 +73,13 @@ class _Create_PasswordState extends State<Create_ForgetPassword> {
                       context.read<ResetPasswordCubit>().ResetPasswordFormKey,
                   child: Column(
                     children: [
-                    SizedBox(height: 190),
+                   const SizedBox(height: 190),
                     SLtext(
                       text: 'Create a password',
                       size: 20,
                       weight: FontWeight.w600,
                     ),
-                    SizedBox(
+                   const SizedBox(
                       height: 20,
                     ),
                     SLtext(
@@ -88,7 +88,7 @@ class _Create_PasswordState extends State<Create_ForgetPassword> {
                       size: 14,
                       weight: FontWeight.w500,
                     ),
-                    SizedBox(
+                   const SizedBox(
                       height: 20,
                     ),
                     Container(
@@ -102,78 +102,42 @@ class _Create_PasswordState extends State<Create_ForgetPassword> {
                         decoration: InputDecoration(
                           labelText: 'Password',
                           hintText: 'Enter New Password',
-                          floatingLabelStyle: TextStyle(color: Color(0xffB68B25)),
+                          floatingLabelStyle:const TextStyle(color: Color(0xffB68B25)),
                           suffixIcon: IconButton(
                               icon: Icon(
                                 _isObscure
                                     ? Icons.visibility_off
                                     : Icons.visibility,
-                                color: Color(0xffB68B25),
+                                color:const Color(0xffB68B25),
                               ),
                               onPressed: () {
                                 setState(() {
                                   _isObscure = !_isObscure;
                                 });
                               }),
-                          prefixIcon: Icon(
+                          prefixIcon:const Icon(
                             Icons.lock,
                             color: Color(0xffB68B25),
                           ),
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Color(0xff252836)),
+                            borderSide:const BorderSide(color: Color(0xff252836)),
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(color: Color(0xffB68B25)),
+                            borderSide:const BorderSide(color: Color(0xffB68B25)),
                           ),
                         ),
                       ),
                     ),
-                    SizedBox(
+                   const SizedBox(
                       height: 20,
                     ),
-                    // Container(
-                    //   width: 354,
-                    //   height: 44,
-                    //   child: TextField(
-                    //     obscureText: _isObscureConfirm,
-                    //     decoration: InputDecoration(
-                    //       labelText: 'Confirm Password',
-                    //       hintText: 'Enter Confirm Password',
-                    //       floatingLabelStyle: TextStyle(color: Color(0xffB68B25)),
-                    //       suffixIcon: IconButton(
-                    //           icon: Icon(
-                    //             _isObscureConfirm
-                    //                 ? Icons.visibility_off
-                    //                 : Icons.visibility,
-                    //             color: Color(0xffB68B25),
-                    //           ),
-                    //           onPressed: () {
-                    //             setState(() {
-                    //               _isObscureConfirm = !_isObscureConfirm;
-                    //             });
-                    //           }),
-                    //       prefixIcon: Icon(
-                    //         Icons.lock,
-                    //         color: Color(0xffB68B25),
-                    //       ),
-                    //       border: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(10),
-                    //         borderSide: BorderSide(color: Color(0xff252836)),
-                    //       ),
-                    //       focusedBorder: OutlineInputBorder(
-                    //         borderRadius: BorderRadius.circular(10),
-                    //         borderSide: BorderSide(color: Color(0xffB68B25)),
-                    //       ),
-                    //     ),
-                    //   ),
-                    // ),
-                  
-                    SizedBox(
+                    
+                  const  SizedBox(
                       height: 40,
                     ),
-                    SizedBox(
+                  const  SizedBox(
                       height: 140,
                     ),
                     state is ResetPasswordLoading

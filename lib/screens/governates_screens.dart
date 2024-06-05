@@ -21,7 +21,7 @@ class GovernatesScreen extends StatelessWidget {
     return Scaffold(
       body: SingleChildScrollView(
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 5.0, vertical: 40.0),
+          padding:const EdgeInsets.symmetric(horizontal: 5.0, vertical: 40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -29,12 +29,12 @@ class GovernatesScreen extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   IconButton(
-                    icon: Icon(Icons.arrow_back_ios_new_rounded),
+                    icon:const Icon(Icons.arrow_back_ios_new_rounded),
                     onPressed: () {
                       Navigator.of(context).pop();
                     },
                   ),
-                  Text(
+                 const Text(
                     'Governorates',
                     style: TextStyle(
                       fontSize: 30,
@@ -42,10 +42,10 @@ class GovernatesScreen extends StatelessWidget {
                       fontFamily: 'Poppins',
                     ),
                   ),
-                  SizedBox(width: 40.0), // Adjust as needed for spacing
+                 const SizedBox(width: 40.0), // Adjust as needed for spacing
                 ],
               ),
-              SizedBox(height: 20.0),
+            const  SizedBox(height: 20.0),
               Row(
                 children: [
                   GestureDetector(
@@ -57,11 +57,11 @@ class GovernatesScreen extends StatelessWidget {
                     onTap: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
-                            builder: (context) => GovernorateSearch()),
+                            builder: (context) =>const GovernorateSearch()),
                       );
                     },
                     child: Padding(
-                      padding: EdgeInsets.only(left: 20),
+                      padding:const EdgeInsets.only(left: 20),
                       child: Container(
                         width: 354,
                         height: 38,
@@ -85,7 +85,7 @@ class GovernatesScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: 30),
+            const  SizedBox(height: 30),
               BlocProvider(
                 create: (context) =>
                     GovernatesCubit(governatesRepository: governatesRepository)
@@ -93,17 +93,17 @@ class GovernatesScreen extends StatelessWidget {
                 child: BlocBuilder<GovernatesCubit, List<Governate>>(
                   builder: (context, state) {
                     if (state.isEmpty) {
-                      return Center(
+                      return const Center(
                         child: CircularProgressIndicator(),
                       );
                     } else {
                       return GridView.builder(
                         shrinkWrap: true,
                         physics:
-                            NeverScrollableScrollPhysics(), // Disable GridView's scrolling
-                        padding: EdgeInsets.symmetric(
+                        const    NeverScrollableScrollPhysics(), // Disable GridView's scrolling
+                        padding: const EdgeInsets.symmetric(
                             horizontal: 16.0, vertical: 8.0),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        gridDelegate:const SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 16.0,
                           mainAxisSpacing: 16.0,
