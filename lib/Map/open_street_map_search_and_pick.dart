@@ -11,6 +11,7 @@ import 'package:latlong2/latlong.dart';
 import 'package:open_route_service/open_route_service.dart';
 //import 'package:osm_search_and_pick/widgets/route.dart';
 import 'package:osm_search_and_pick/widgets/wide_button.dart';
+
 class OpenStreetMapSearchAndPick extends StatefulWidget {
   final Function(LatLng) calculateRoute; // Add the required function signature
   final void Function(PickedData pickedData) onPicked;
@@ -33,7 +34,7 @@ class OpenStreetMapSearchAndPick extends StatefulWidget {
   const OpenStreetMapSearchAndPick({
     Key? key,
     required this.onPicked,
-    this.buttonback =  Icons.arrow_back,
+    this.buttonback = Icons.arrow_back,
     this.zoomOutIcon = Icons.zoom_out_map,
     this.zoomInIcon = Icons.zoom_in_map,
     this.currentLocationIcon = Icons.my_location,
@@ -57,6 +58,7 @@ class OpenStreetMapSearchAndPick extends StatefulWidget {
   State<OpenStreetMapSearchAndPick> createState() =>
       _OpenStreetMapSearchAndPickState();
 }
+
 class _OpenStreetMapSearchAndPickState
     extends State<OpenStreetMapSearchAndPick> {
   MapController _mapController = MapController();
@@ -70,7 +72,7 @@ class _OpenStreetMapSearchAndPickState
   List<Marker> markers = [];
   late LatLng myPoint = defaultPoint;
   bool isLoading = false;
-  bool  _isSearching = false;
+  bool _isSearching = false;
   final MapController mapController = MapController();
   LatLng? _selectedMarkerPosition;
   Timer? _debounce;
@@ -96,25 +98,25 @@ class _OpenStreetMapSearchAndPickState
     LatLng(31.209871086062392, 29.90910628895727),
     LatLng(31.19479234946572, 29.904014397767625),
     LatLng(31.0460592426755, 31.379654325119137),
-     LatLng(30.890868919928685, 31.45617351755011),
-      LatLng(30.048530273790647, 31.233678132925522),
-      LatLng(30.042582063197134, 31.22363881814319),
-       LatLng(30.029080652465698, 31.229970111580275),
-       LatLng(30.051069874906236, 31.261639177102335),
-            LatLng(30.028858172416424, 31.249383375255544),
+    LatLng(30.890868919928685, 31.45617351755011),
+    LatLng(30.048530273790647, 31.233678132925522),
+    LatLng(30.042582063197134, 31.22363881814319),
+    LatLng(30.029080652465698, 31.229970111580275),
+    LatLng(30.051069874906236, 31.261639177102335),
+    LatLng(30.028858172416424, 31.249383375255544),
   ];
   List<String> _placeNames = [
     //الجيزة
     'الاهرامات',
     'هرم زوسر',
-  "القرية الفرعونية",
+    "القرية الفرعونية",
     'برج القاهرة',
     //الاقصر
     "معبدالكرنك",
     'معبد وادي الملوك',
     "معبد الاقصر",
     //البحر الاحمر
-    
+
     //بورسغيد
     " متحف بورسعيد الحديث",
     // دمياط
@@ -132,7 +134,7 @@ class _OpenStreetMapSearchAndPickState
 //المنصورة
     'مسجد الموافي',
     'ثمثال ام كلثوم',
-    ///////////////////////////  
+    ///////////////////////////
     'المتحف المصري',
     ' الاوبرا',
     'قصر المنيل',
@@ -152,6 +154,7 @@ class _OpenStreetMapSearchAndPickState
     setNameCurrentPosAtInit(position.latitude, position.longitude);
     return position;
   }
+
   Future<Position?> getPosition(LocationPermission locationPermission) async {
     if (locationPermission == LocationPermission.denied ||
         locationPermission == LocationPermission.deniedForever) {
@@ -161,61 +164,61 @@ class _OpenStreetMapSearchAndPickState
     setNameCurrentPosAtInit(position.latitude, position.longitude);
     return position;
   }
-void setNameCurrentPos() async {
-  double latitude = _mapController.center.latitude;
-  double longitude = _mapController.center.longitude;
-  String url =
-      '${widget.baseUri}/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
 
-  var response = await client.get(Uri.parse(url));
-  var decodedResponse =
-      jsonDecode(utf8.decode(response.bodyBytes)) as Map<dynamic, dynamic>;
+  void setNameCurrentPos() async {
+    double latitude = _mapController.center.latitude;
+    double longitude = _mapController.center.longitude;
+    String url =
+        '${widget.baseUri}/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
 
-  _searchController.text =
-      decodedResponse['display_name'] ?? "MOVE TO CURRENT POSITION";
-  setState(() {});
-}
+    var response = await client.get(Uri.parse(url));
+    var decodedResponse =
+        jsonDecode(utf8.decode(response.bodyBytes)) as Map<dynamic, dynamic>;
 
+    _searchController.text =
+        decodedResponse['display_name'] ?? "MOVE TO CURRENT POSITION";
+    setState(() {});
+  }
 
   void setNameCurrentPosAtInit(double latitude, double longitude) async {
-  String url =
-      '${widget.baseUri}/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
+    String url =
+        '${widget.baseUri}/reverse?format=json&lat=$latitude&lon=$longitude&zoom=18&addressdetails=1';
 
-  var response = await client.get(Uri.parse(url));
-  var decodedResponse =
-      jsonDecode(utf8.decode(response.bodyBytes)) as Map<dynamic, dynamic>;
+    var response = await client.get(Uri.parse(url));
+    var decodedResponse =
+        jsonDecode(utf8.decode(response.bodyBytes)) as Map<dynamic, dynamic>;
 
-  _searchController.text =
-      decodedResponse['display_name'] ?? "MOVE TO CURRENT POSITION";
-}
-
+    _searchController.text =
+        decodedResponse['display_name'] ?? "MOVE TO CURRENT POSITION";
+  }
 
 // Assuming you have a showConnectivityError function defined elsewhere
-void showConnectivityError(BuildContext context) {
-  // Use a Snackbar or Dialog to display the message
+  void showConnectivityError(BuildContext context) {
+    // Use a Snackbar or Dialog to display the message
 
-  // Example using Snackbar:
-  ScaffoldMessenger.of(context).showSnackBar(
-    const SnackBar(
-      content: Text('No internet connection. Please try again later.'),
-    ),
-  );
+    // Example using Snackbar:
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('No internet connection. Please try again later.'),
+      ),
+    );
 
-  // Example using Dialog:
-  showDialog(
-    context: context,
-    builder: (context) => AlertDialog(
-      title: const Text('Network Error'),
-      content: const Text('There seems to be a problem with your internet connection. Please check your connection and try again.'),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.pop(context),
-          child: const Text('OK'),
-        ),
-      ],
-    ),
-  );
-}
+    // Example using Dialog:
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Network Error'),
+        content: const Text(
+            'There seems to be a problem with your internet connection. Please check your connection and try again.'),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('OK'),
+          ),
+        ],
+      ),
+    );
+  }
 
   Future<void> getCoordinates(LatLng lat1, LatLng lat2) async {
     setState(() {
@@ -251,13 +254,15 @@ void showConnectivityError(BuildContext context) {
       isLoading = false;
     });
   }
- void calculateRoute(LatLng start, LatLng destination) {
-  if (start != null && destination != null) {
-    getCoordinates(start, destination);
-  } else {
-    print('Unable to get start or destination coordinates for route calculation');
+
+  void calculateRoute(LatLng start, LatLng destination) {
+    if (start != null && destination != null) {
+      getCoordinates(start, destination);
+    } else {
+      print(
+          'Unable to get start or destination coordinates for route calculation');
+    }
   }
-}
 
   @override
   void initState() {
@@ -286,11 +291,13 @@ void showConnectivityError(BuildContext context) {
     latlongFuture = getCurrentPosLatLong();
     super.initState();
   }
+
   @override
   void dispose() {
     _mapController.dispose();
     super.dispose();
   }
+
   void togglePolyline(int index, LatLng markerPosition) {
     setState(() {
       if (_showPolylineForMarkers.length <= index) {
@@ -309,18 +316,18 @@ void showConnectivityError(BuildContext context) {
       }
     });
   }
+
   void _handleMarkerSelection(LatLng markerPosition) async {
-  if (userLocation != null && markerPosition != null) {
-    // Calculate route to the selected marker
-    await getCoordinates(userLocation!, markerPosition);
+    if (userLocation != null && markerPosition != null) {
+      // Calculate route to the selected marker
+      await getCoordinates(userLocation!, markerPosition);
 
-    // Update map to focus on the selected marker and display the route
-    mapController.move(markerPosition, 16.5);
-  } else {
-    print('User location or marker position is null.');
+      // Update map to focus on the selected marker and display the route
+      mapController.move(markerPosition, 16.5);
+    } else {
+      print('User location or marker position is null.');
+    }
   }
-}
-
 
   void _navigateToRouteMap(LatLng destination) {
     LatLng? userLocation = _currentPosition;
@@ -338,6 +345,7 @@ void showConnectivityError(BuildContext context) {
       print('User location is not available');
     }
   }
+
   @override
   Widget build(BuildContext context) {
     OutlineInputBorder inputBorder = OutlineInputBorder(
@@ -375,8 +383,7 @@ void showConnectivityError(BuildContext context) {
                   children: [
                     TileLayer(
                       urlTemplate:
-                          "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
-                      subdomains: const ['a', 'b', 'c'],
+                          "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
                     ),
                     MarkerLayer(
                       markers: [
@@ -408,11 +415,13 @@ void showConnectivityError(BuildContext context) {
                                 togglePolyline(index, markerPosition);
                                 widget.calculateRoute(
                                     markerPosition); // Call calculateRoute function
-                                       _handleMarkerSelection(markerPosition); // Call method here
+                                _handleMarkerSelection(
+                                    markerPosition); // Call method here
                                 setState(() {
                                   _selectedMarkerIndex = index;
-                                  
-                                   calculateRoute(_currentPosition!, markerPosition);
+
+                                  calculateRoute(
+                                      _currentPosition!, markerPosition);
                                   _selectedMarkerPosition =
                                       markerPosition; // Assign marker position to _selectedMarkerPosition
                                   print(
@@ -428,46 +437,54 @@ void showConnectivityError(BuildContext context) {
                                     right: 0.0,
                                     child: GestureDetector(
                                       onTap: () {
-                                       showDialog(
-  context: context,
-  builder: (BuildContext context) {
-    return AlertDialog(
-      backgroundColor: Colors.transparent, // Set the background color to transparent
-      elevation: 0, // Optional: remove shadow
-      content: Container(
-        padding: EdgeInsets.all(20), // Add padding if needed
-        decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.7), // Adjust opacity as needed
-          borderRadius: BorderRadius.circular(10), // Optional: Add border radius
-        ),
-        constraints: BoxConstraints(
-          maxWidth: 300, // Adjust the maxWidth as needed to fit the full message
-        ),
-        child: Text(
-          placeName,
-          style: TextStyle(
-            fontSize: 25.0, // Larger font size
-            fontWeight: FontWeight.bold,
-            color: Colors.white,
-          ),
-          textAlign: TextAlign.center,
-        ),
-      ),
-      actions: [
-        TextButton(
-          child: Text(
-            'OK',
-            style: TextStyle(fontSize: 20),
-          ),
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-        ),
-      ],
-    );
-  },
-);
-
+                                        showDialog(
+                                          context: context,
+                                          builder: (BuildContext context) {
+                                            return AlertDialog(
+                                              backgroundColor: Colors
+                                                  .transparent, // Set the background color to transparent
+                                              elevation:
+                                                  0, // Optional: remove shadow
+                                              content: Container(
+                                                padding: EdgeInsets.all(
+                                                    20), // Add padding if needed
+                                                decoration: BoxDecoration(
+                                                  color: Colors.black.withOpacity(
+                                                      0.7), // Adjust opacity as needed
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          10), // Optional: Add border radius
+                                                ),
+                                                constraints: BoxConstraints(
+                                                  maxWidth:
+                                                      300, // Adjust the maxWidth as needed to fit the full message
+                                                ),
+                                                child: Text(
+                                                  placeName,
+                                                  style: TextStyle(
+                                                    fontSize:
+                                                        25.0, // Larger font size
+                                                    fontWeight: FontWeight.bold,
+                                                    color: Colors.white,
+                                                  ),
+                                                  textAlign: TextAlign.center,
+                                                ),
+                                              ),
+                                              actions: [
+                                                TextButton(
+                                                  child: Text(
+                                                    'OK',
+                                                    style:
+                                                        TextStyle(fontSize: 20),
+                                                  ),
+                                                  onPressed: () {
+                                                    Navigator.of(context).pop();
+                                                  },
+                                                ),
+                                              ],
+                                            );
+                                          },
+                                        );
                                       },
                                       child: Container(
                                         padding: EdgeInsets.symmetric(
@@ -541,7 +558,7 @@ void showConnectivityError(BuildContext context) {
                                 ),
                               ];
                             }
-                            
+
                             return [];
                           }).toList(),
                       ],
@@ -576,235 +593,262 @@ void showConnectivityError(BuildContext context) {
                   ),
                 ),
               ),
-        Positioned(
-  bottom: 10,
-  right: 5,
-  child: Column(
-    mainAxisAlignment: MainAxisAlignment.end,
-    crossAxisAlignment: CrossAxisAlignment.end,
-    children: [
-      FloatingActionButton(
-        heroTag: 'btn1',
-        backgroundColor: widget.buttonColor,
-        onPressed: () {
-          _mapController.move(
-              _mapController.center, _mapController.zoom + 1);
-        },
-        child: Icon(
-          widget.zoomInIcon,
-          color: widget.buttonTextColor,
-        ),
-      ),
-      SizedBox(height: 2), // Adjust the height between buttons as needed
-      FloatingActionButton(
-        heroTag: 'btn2',
-        backgroundColor: widget.buttonColor,
-        onPressed: () {
-          _mapController.move(
-              _mapController.center, _mapController.zoom - 1);
-        },
-        child: Icon(
-          widget.zoomOutIcon,
-          color: widget.buttonTextColor,
-        ),
-      ),
-      SizedBox(height: 2), // Adjust the height between buttons as needed
-      FloatingActionButton(
-        heroTag: 'btn3',
-        backgroundColor: widget.buttonColor,
-        onPressed: () async {
-          if (mapCentre != null) {
-            _mapController.move(
-                LatLng(mapCentre.latitude, mapCentre.longitude),
-                _mapController.zoom);
-          } else {
-            _mapController.move(
-                const LatLng(50.5, 30.51), _mapController.zoom);
-          }
-          setNameCurrentPos();
-        },
-        child: Icon(
-          widget.currentLocationIcon,
-          color: widget.buttonTextColor,
-        ),
-      ),
-      SizedBox(height: 2), // Adjust the height between buttons as needed
-      FloatingActionButton(
-        heroTag: 'btn4',
-        backgroundColor: widget.buttonColor,
-        onPressed: () {
-          if (_selectedMarkerIndex != null) {
-            LatLng selectedMarkerPosition = _additionalMarkers[_selectedMarkerIndex!];
-            _navigateToRouteMap(selectedMarkerPosition);
-            calculateRoute(_currentPosition!, selectedMarkerPosition);
-          } else {
-            // Handle the case where _selectedMarkerPosition is null, such as showing a message to the user
-            print('No marker selected');
-          }
-        },
-        child: Icon(
-          Icons.directions, // Replace with the actual icon you want to use
-          color: widget.buttonTextColor,
-        ),
-      ),
-    ],
-  ),
-),
-
-
               Positioned(
-  top: 0,
-  left: 0,
-  right: 0,
-  child: Container(
-    width: MediaQuery.of(context).size.width,
-    margin: const EdgeInsets.all(15),
-    decoration: BoxDecoration(
-     
-      color: Colors.white, // Make container transparent
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Column(
-      children: [
-        Row(
-          children: [
-            Container(
-              decoration: BoxDecoration(
-                //shape: BoxShape.circle, // Make the container circular
-                color: Colors.grey, 
-                 borderRadius: BorderRadius.circular(10),
-              ),
-              child: IconButton( // Add IconButton for back button
-                icon: Icon(Icons.arrow_back,color: Colors.white,), // Use Icons.arrow_back for back icon
-                onPressed: () {
-                  // Handle back button press (navigate back, etc.)
-                  Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomePage()),
-                  );
-                },
-              ),
-            ),
-            SizedBox(width: 2,),
- Expanded(
-  child: Directionality(
-    textDirection: TextDirection.rtl, // Set the direction to right-to-left
-    child: TextFormField(
-      controller: _searchController,
-      focusNode: _focusNode,
-      textAlign: TextAlign.left, // Set text alignment to right
-      decoration: InputDecoration(
-        hintText:'Search in Kemet Map', // Arabic hint text
-        border: inputBorder,
-        focusedBorder: inputFocusBorder,
-        prefixIcon: IconButton(
-          icon: const Icon(Icons.search),
-          onPressed: () {
-            // Handle search button press (optional)
-          },
-        ),
-       suffixIcon: _searchController.text.isNotEmpty
-    ? _isSearching
-        ? Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-              width: 1,
-              height: 1,
-              child: CircularProgressIndicator(
-                strokeWidth: 3, // You can adjust the strokeWidth if needed
-              ),
-            ),
-        )
-        : IconButton(
-            icon: const Icon(Icons.clear),
-            onPressed: () {
-              setState(() {
-                _searchController.clear();
-              });
-            },
-          )
-    : null
-      ),
-      onChanged: (String value) {
-        if (_debounce?.isActive ?? false) {
-          _debounce?.cancel();
-        }
-        _debounce = Timer(
-          const Duration(milliseconds: 2000),
-          () async {
-            setState(() {
-              _isSearching = true; // Set searching indicator to true
-            });
-
-            var client = http.Client();
-            try {
-              String url =
-                  '${widget.baseUri}/search?q=$value&format=json&polygon_geojson=1&addressdetails=1';
-              var response = await client.get(Uri.parse(url));
-              var decodedResponse = jsonDecode(
-                  utf8.decode(response.bodyBytes)) as List<dynamic>;
-              _options = decodedResponse
-                  .map(
-                    (e) => OSMdata(
-                      displayname: e['display_name'],
-                      lat: double.parse(e['lat']),
-                      lon: double.parse(e['lon']),
+                bottom: 10,
+                right: 5,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    FloatingActionButton(
+                      heroTag: 'btn1',
+                      backgroundColor: widget.buttonColor,
+                      onPressed: () {
+                        _mapController.move(
+                            _mapController.center, _mapController.zoom + 1);
+                      },
+                      child: Icon(
+                        widget.zoomInIcon,
+                        color: widget.buttonTextColor,
+                      ),
                     ),
-                  )
-                  .toList();
-              setState(() {});
-            } finally {
-              setState(() {
-                _isSearching = false; // Reset searching indicator
-              });
-              client.close();
-            }
-            setState(() {});
-          },
-        );
-        setState(() {});
-      },
-    ),
-  ),
-),
-          ],
-        ),
-        StatefulBuilder(
-  builder: (context, setState) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: 200, // Limit the height of the ListView
-        maxWidth: MediaQuery.of(context).size.width, // Constrain the width
-      ),
-      child: ListView.builder(
-        shrinkWrap: true,
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: _options.length > 5 ? 5 : _options.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(_options[index].displayname),
-            subtitle: Text('${_options[index].lat},${_options[index].lon}'),
-            onTap: () {
-              _mapController.move(
-                LatLng(_options[index].lat, _options[index].lon),
-                15.0,
-              );
-              _focusNode.unfocus();
-              _options.clear();
-              setState(() {});
-            },
-          );
-        },
-      ),
-    );
-  },
-),
+                    SizedBox(
+                        height:
+                            2), // Adjust the height between buttons as needed
+                    FloatingActionButton(
+                      heroTag: 'btn2',
+                      backgroundColor: widget.buttonColor,
+                      onPressed: () {
+                        _mapController.move(
+                            _mapController.center, _mapController.zoom - 1);
+                      },
+                      child: Icon(
+                        widget.zoomOutIcon,
+                        color: widget.buttonTextColor,
+                      ),
+                    ),
+                    SizedBox(
+                        height:
+                            2), // Adjust the height between buttons as needed
+                    FloatingActionButton(
+                      heroTag: 'btn3',
+                      backgroundColor: widget.buttonColor,
+                      onPressed: () async {
+                        if (mapCentre != null) {
+                          _mapController.move(
+                              LatLng(mapCentre.latitude, mapCentre.longitude),
+                              _mapController.zoom);
+                        } else {
+                          _mapController.move(
+                              const LatLng(50.5, 30.51), _mapController.zoom);
+                        }
+                        setNameCurrentPos();
+                      },
+                      child: Icon(
+                        widget.currentLocationIcon,
+                        color: widget.buttonTextColor,
+                      ),
+                    ),
+                    SizedBox(
+                        height:
+                            2), // Adjust the height between buttons as needed
+                    FloatingActionButton(
+                      heroTag: 'btn4',
+                      backgroundColor: widget.buttonColor,
+                      onPressed: () {
+                        if (_selectedMarkerIndex != null) {
+                          LatLng selectedMarkerPosition =
+                              _additionalMarkers[_selectedMarkerIndex!];
+                          _navigateToRouteMap(selectedMarkerPosition);
+                          calculateRoute(
+                              _currentPosition!, selectedMarkerPosition);
+                        } else {
+                          // Handle the case where _selectedMarkerPosition is null, such as showing a message to the user
+                          print('No marker selected');
+                        }
+                      },
+                      child: Icon(
+                        Icons
+                            .directions, // Replace with the actual icon you want to use
+                        color: widget.buttonTextColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  margin: const EdgeInsets.all(15),
+                  decoration: BoxDecoration(
+                    color: Colors.white, // Make container transparent
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    children: [
+                      Row(
+                        children: [
+                          Container(
+                            decoration: BoxDecoration(
+                              //shape: BoxShape.circle, // Make the container circular
+                              color: Colors.grey,
+                              borderRadius: BorderRadius.circular(10),
+                            ),
+                            child: IconButton(
+                              // Add IconButton for back button
+                              icon: Icon(
+                                Icons.arrow_back,
+                                color: Colors.white,
+                              ), // Use Icons.arrow_back for back icon
+                              onPressed: () {
+                                // Handle back button press (navigate back, etc.)
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomePage()),
+                                );
+                              },
+                            ),
+                          ),
+                          SizedBox(
+                            width: 2,
+                          ),
+                          Expanded(
+                            child: Directionality(
+                              textDirection: TextDirection
+                                  .rtl, // Set the direction to right-to-left
+                              child: TextFormField(
+                                controller: _searchController,
+                                focusNode: _focusNode,
+                                textAlign: TextAlign
+                                    .left, // Set text alignment to right
+                                decoration: InputDecoration(
+                                    hintText:
+                                        'Search in Kemet Map', // Arabic hint text
+                                    border: inputBorder,
+                                    focusedBorder: inputFocusBorder,
+                                    prefixIcon: IconButton(
+                                      icon: const Icon(Icons.search),
+                                      onPressed: () {
+                                        // Handle search button press (optional)
+                                      },
+                                    ),
+                                    suffixIcon: _searchController
+                                            .text.isNotEmpty
+                                        ? _isSearching
+                                            ? Padding(
+                                                padding:
+                                                    const EdgeInsets.all(8.0),
+                                                child: SizedBox(
+                                                  width: 1,
+                                                  height: 1,
+                                                  child:
+                                                      CircularProgressIndicator(
+                                                    strokeWidth:
+                                                        3, // You can adjust the strokeWidth if needed
+                                                  ),
+                                                ),
+                                              )
+                                            : IconButton(
+                                                icon: const Icon(Icons.clear),
+                                                onPressed: () {
+                                                  setState(() {
+                                                    _searchController.clear();
+                                                  });
+                                                },
+                                              )
+                                        : null),
+                                onChanged: (String value) {
+                                  if (_debounce?.isActive ?? false) {
+                                    _debounce?.cancel();
+                                  }
+                                  _debounce = Timer(
+                                    const Duration(milliseconds: 2000),
+                                    () async {
+                                      setState(() {
+                                        _isSearching =
+                                            true; // Set searching indicator to true
+                                      });
 
-      ],
-    ),
-  ),
-),
-
+                                      var client = http.Client();
+                                      try {
+                                        String url =
+                                            '${widget.baseUri}/search?q=$value&format=json&polygon_geojson=1&addressdetails=1';
+                                        var response =
+                                            await client.get(Uri.parse(url));
+                                        var decodedResponse = jsonDecode(
+                                                utf8.decode(response.bodyBytes))
+                                            as List<dynamic>;
+                                        _options = decodedResponse
+                                            .map(
+                                              (e) => OSMdata(
+                                                displayname: e['display_name'],
+                                                lat: double.parse(e['lat']),
+                                                lon: double.parse(e['lon']),
+                                              ),
+                                            )
+                                            .toList();
+                                        setState(() {});
+                                      } finally {
+                                        setState(() {
+                                          _isSearching =
+                                              false; // Reset searching indicator
+                                        });
+                                        client.close();
+                                      }
+                                      setState(() {});
+                                    },
+                                  );
+                                  setState(() {});
+                                },
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      StatefulBuilder(
+                        builder: (context, setState) {
+                          return ConstrainedBox(
+                            constraints: BoxConstraints(
+                              maxHeight:
+                                  200, // Limit the height of the ListView
+                              maxWidth: MediaQuery.of(context)
+                                  .size
+                                  .width, // Constrain the width
+                            ),
+                            child: ListView.builder(
+                              shrinkWrap: true,
+                              physics: const NeverScrollableScrollPhysics(),
+                              itemCount:
+                                  _options.length > 5 ? 5 : _options.length,
+                              itemBuilder: (context, index) {
+                                return ListTile(
+                                  title: Text(_options[index].displayname),
+                                  subtitle: Text(
+                                      '${_options[index].lat},${_options[index].lon}'),
+                                  onTap: () {
+                                    _mapController.move(
+                                      LatLng(_options[index].lat,
+                                          _options[index].lon),
+                                      15.0,
+                                    );
+                                    _focusNode.unfocus();
+                                    _options.clear();
+                                    setState(() {});
+                                  },
+                                );
+                              },
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
               Positioned(
                 bottom: 0,
                 left: 0,
@@ -829,16 +873,17 @@ void showConnectivityError(BuildContext context) {
               ),
             ],
           ),
-        ); 
+        );
       },
     );
   }
+
   Future<PickedData> pickData() async {
     LatLong center = LatLong(
         _mapController.center.latitude, _mapController.center.longitude);
     var client = http.Client();
     String url =
-       '${widget.baseUri}/reverse?format=json&lat=${_mapController.center.latitude}&lon=${_mapController.center.longitude}&zoom=18&addressdetails=1';
+        '${widget.baseUri}/reverse?format=json&lat=${_mapController.center.latitude}&lon=${_mapController.center.longitude}&zoom=18&addressdetails=1';
     var response = await client.get(Uri.parse(url));
     var decodedResponse =
         jsonDecode(utf8.decode(response.bodyBytes)) as Map<dynamic, dynamic>;
@@ -846,6 +891,7 @@ void showConnectivityError(BuildContext context) {
     return PickedData(center, displayName, decodedResponse["address"]);
   }
 }
+
 class OSMdata {
   final String displayname;
   final double lat;
@@ -855,6 +901,7 @@ class OSMdata {
   String toString() {
     return '$displayname, $lat, $lon';
   }
+
   @override
   bool operator ==(Object other) {
     if (other.runtimeType != runtimeType) {
@@ -862,14 +909,17 @@ class OSMdata {
     }
     return other is OSMdata && other.displayname == displayname;
   }
+
   @override
   int get hashCode => Object.hash(displayname, lat, lon);
 }
+
 class LatLong {
   final double latitude;
   final double longitude;
   const LatLong(this.latitude, this.longitude);
 }
+
 class PickedData {
   final LatLong latLong;
   final String addressName;

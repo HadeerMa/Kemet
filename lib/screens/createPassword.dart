@@ -49,9 +49,9 @@ class _Create_PasswordState extends State<Create_Password> {
                 return const CreateProfilePage();
               }),
             );
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.msg)),
-            );
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   SnackBar(content: Text(state.msg)),
+            // );
           } else if (state is createpasswordError) {
             showCustomPopupError(context);
             // ScaffoldMessenger.of(context).showSnackBar(

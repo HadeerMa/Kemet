@@ -68,7 +68,7 @@ class HomePage extends StatelessWidget {
                           width: 20,
                         ),
                         Container(
-                          width: 160,
+                          width: 200,
                           height: 50,
                           child: Column(
                             children: [

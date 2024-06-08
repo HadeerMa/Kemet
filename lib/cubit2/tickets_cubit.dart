@@ -141,7 +141,7 @@ class TicketsCubit extends Cubit<TicketsState> {
       } else {
         emit(ShippingError('An error occurred while creating cash order.'));
       }
-      throw 'An error occurred while creating cash order.';
+      // throw 'An error occurred while creating cash order.';
     }
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:dio/dio.dart';
 import 'package:kemet/logic/cache/cache_helper.dart';
 import 'package:kemet/logic/core/api/end_ponits.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Legend extends StatefulWidget {
   final Map<String, dynamic> legend;
@@ -15,6 +16,25 @@ class Legend extends StatefulWidget {
 class _LegendState extends State<Legend> {
   bool _isPressed = false;
   final String baseUrl = 'https://kemet-gp2024.onrender.com/api/v1';
+@override
+  void initState() {
+    super.initState();
+  
+        _loadFavoriteStatus();
+
+  }
+  void _loadFavoriteStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isPressed = prefs.getBool('favorite_${widget.legend}') ?? false;
+    });
+  }
+
+  void _saveFavoriteStatus(bool isPressed) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('favorite_${widget.legend}', isPressed);
+  }
+
 
   Future<void> addToWishlist(String legendId, String token) async {
     try {
@@ -41,7 +61,7 @@ class _LegendState extends State<Legend> {
 
   Future<void> _removeFromWishlist(String legendId, String token) async {
     final String apiUrl =
-        'https://kemet-gp2024.onrender.com/api/v1/tripWL/removeFromWishList/$legendId';
+        'https://kemet-gp2024.onrender.com/api/v1/legendWL/removeFromWishList/$legendId';
 
     try {
       final dio = Dio();
@@ -86,20 +106,18 @@ class _LegendState extends State<Legend> {
                 setState(() {
                   _isPressed = !_isPressed;
                 });
+                 _saveFavoriteStatus(_isPressed);
+             final token = CacheHelper().getDataString(key: ApiKey.token);
 
                 if (_isPressed) {
-                  final token = CacheHelper().getDataString(key: ApiKey.token);
-
                   addToWishlist(
-                    widget.legend['_id'],
-                    token!, // Replace 'your_token_here' with your actual token
+                    widget.legend['_id'],token!
+                    // Replace 'your_token_here' with your actual token
                   );
                 } else {
-                  final token = CacheHelper().getDataString(key: ApiKey.token);
-
-                  _removeFromWishlist(
-                    widget.legend['_id'],
-                    token!, // Replace 'your_token_here' with your actual token
+                   _removeFromWishlist(
+                    widget.legend['_id'],token!
+                    // Replace 'your_token_here' with your actual token
                   );
                 }
               },

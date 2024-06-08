@@ -53,7 +53,7 @@ class CongratsPoP extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: 'poppins',
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold,color: Colors.white),
                 ),
                 onPressed: () {
                   // Navigator.of(context).pop();

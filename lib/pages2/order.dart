@@ -5,6 +5,7 @@ import 'package:kemet/components2/custom_appbar.dart';
 import 'package:kemet/components2/custom_field.dart';
 import 'package:kemet/components2/delivary_pop_up.dart';
 import 'package:kemet/components2/pay_field.dart';
+import 'package:kemet/components2/phonefield.dart';
 import 'package:kemet/cubit2/tickets_cubit.dart';
 import 'package:kemet/pages2/tickets.dart';
 
@@ -79,7 +80,7 @@ class Order extends StatelessWidget {
                     const SizedBox(
                       height: 20,
                     ),
-                    CustomField(
+                    PhoneField(
                       controller: TicketsCubit.get(context).phoneField,
                       label: 'Phone',
                       hint: 'Enter your phone!',

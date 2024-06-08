@@ -8,11 +8,13 @@ import '../models2/favorites_tourism.dart';
 class SearchRepository {
   Future<List<Map<String, dynamic>>> tourismSearch(String keyword) async {
     final encodedKeyword = Uri.encodeComponent(keyword);
+              final token = CacheHelper().getDataString(key: ApiKey.token);
+
     final url =
         'https://kemet-gp2024.onrender.com/api/v1/tourismPlaces?keyword=$encodedKeyword';
     print('Search URL: $url');
     final response = await http.get(Uri.parse(url),headers: {
-      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjU0OWE5M2NiZDM0NmYwZTJiNGU4YmMiLCJyb2xlIjoidXNlciIsImlhdCI6MTcxNjkwODQ2NX0.IRooS9LricFdGtXQ8jaPIE8OQBazXUQp3kkFfzN_w4g'
+      'token': token!,
     });
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
@@ -44,11 +46,13 @@ class SearchRepository {
   }
   Future<List<Map<String, dynamic>>> governorateSearch(String keyword) async {
     final encodedKeyword = Uri.encodeComponent(keyword);
+              final token = CacheHelper().getDataString(key: ApiKey.token);
+
     final url =
         'https://kemet-gp2024.onrender.com/api/v1/governrates?keyword=$encodedKeyword';
     print('Search URL: $url');
     final response = await http.get(Uri.parse(url),headers: {
-      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjU0OWE5M2NiZDM0NmYwZTJiNGU4YmMiLCJyb2xlIjoidXNlciIsImlhdCI6MTcxNjkwODQ2NX0.IRooS9LricFdGtXQ8jaPIE8OQBazXUQp3kkFfzN_w4g'
+      'token': token!,
     });
 
     if (response.statusCode == 200) {
@@ -73,11 +77,13 @@ class SearchRepository {
 
   Future<List<Map<String, dynamic>>> legendSearch(String keyword) async {
     final encodedKeyword = Uri.encodeComponent(keyword);
+              final token = CacheHelper().getDataString(key: ApiKey.token);
+
     final url =
         'https://kemet-gp2024.onrender.com/api/v1/legends?keyword=$encodedKeyword';
     print('Search URL: $url');
     final response = await http.get(Uri.parse(url),headers: {
-      'token': 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2NjU0OWE5M2NiZDM0NmYwZTJiNGU4YmMiLCJyb2xlIjoidXNlciIsImlhdCI6MTcxNjkwODQ2NX0.IRooS9LricFdGtXQ8jaPIE8OQBazXUQp3kkFfzN_w4g'
+      'token': token!,
     });
 
     if (response.statusCode == 200) {

@@ -8,6 +8,8 @@ import 'package:kemet/screens/createPassword.dart';
 import 'package:kemet/screens/errorPoPUP.dart';
 import 'package:kemet/widget/Button.dart';
 import 'package:kemet/widget/text.dart';
+import 'package:flutter/services.dart';
+
 
 class verification extends StatefulWidget {
   verification({Key? key}) : super(key: key);
@@ -42,9 +44,9 @@ class _verificationState extends State<verification> {
                 return Create_Password();
               }),
             );
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.msg)),
-            );
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   SnackBar(content: Text(state.msg)),
+            // );
           } else if (state is verificationEmaillError) {
             showCustomPopupError(context);
             // ScaffoldMessenger.of(context).showSnackBar(
@@ -98,6 +100,7 @@ class _verificationState extends State<verification> {
                           controller: context
                               .read<verificationEmailCubit>()
                               .verificationEmailController,
+                               
                           decoration: InputDecoration(
                             labelText: 'Pin Code',
                             hintText: 'Enter Your Pin Code',

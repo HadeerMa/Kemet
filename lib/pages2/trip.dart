@@ -6,6 +6,8 @@ import 'package:kemet/logic/core/api/end_ponits.dart';
 import 'package:kemet/models2/favorites_trip.dart';
 import 'package:kemet/models2/user_model.dart';
 import 'review.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class MyTripOfPlace extends StatefulWidget {
   final Trips trip;
@@ -21,6 +23,7 @@ class _MyTripOfPlaceState extends State<MyTripOfPlace> {
   List<dynamic> reviews = [];
   TextEditingController _reviewController = TextEditingController();
   double _userRating = 0;
+  
 
   Future<void> _fetchReviews(String tripId) async {
     try {
@@ -28,7 +31,8 @@ class _MyTripOfPlaceState extends State<MyTripOfPlace> {
       final token = CacheHelper().getDataString(key: ApiKey.token);
 
       final response = await dio.get(
-        'https://kemet-gp2024.onrender.com/api/v1/trips/$tripId', options: Options(
+        'https://kemet-gp2024.onrender.com/api/v1/trips/$tripId',
+        options: Options(
           headers: {'token': token},
         ),
       );
@@ -60,7 +64,21 @@ class _MyTripOfPlaceState extends State<MyTripOfPlace> {
   void initState() {
     super.initState();
     _fetchReviews(widget.trip.id);
+        _loadFavoriteStatus();
+
   }
+  void _loadFavoriteStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isPressed = prefs.getBool('favorite_${widget.trip.id}') ?? false;
+    });
+  }
+
+  void _saveFavoriteStatus(bool isPressed) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('favorite_${widget.trip.id}', isPressed);
+  }
+
 
   bool _hasReviewed = false; // Track if a review has been submitted
 
@@ -266,6 +284,7 @@ class _MyTripOfPlaceState extends State<MyTripOfPlace> {
                 setState(() {
                   _isPressed = !_isPressed;
                 });
+                _saveFavoriteStatus(_isPressed);
                 final token = CacheHelper().getDataString(key: ApiKey.token);
 
                 if (_isPressed) {
@@ -286,6 +305,7 @@ class _MyTripOfPlaceState extends State<MyTripOfPlace> {
             size: 30,
           ),
           onPressed: () {
+            
             Navigator.of(context).pop();
           },
         ),
@@ -548,7 +568,7 @@ class _MyTripOfPlaceState extends State<MyTripOfPlace> {
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(
-                    horizontal: 140.0, vertical: 9.0),
+                    horizontal: 100.0, vertical: 9.0),
                 child: ElevatedButton(
                   onPressed: _hasReviewed
                       ? null // Disable button if review has been submitted
@@ -562,7 +582,11 @@ class _MyTripOfPlaceState extends State<MyTripOfPlace> {
                   ),
                   child: Text(
                     _hasReviewed ? 'Already submitted' : 'Submit',
-                    style: TextStyle(fontFamily: 'Poppins', fontSize: 14),
+                    style: TextStyle(
+                        fontFamily: 'Poppins',
+                        fontSize: 14,
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold),
                   ),
                 ),
               ),

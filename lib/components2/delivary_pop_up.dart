@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kemet/pages2/account.dart';
-
+import 'package:kemet/screens/homepage.dart';
 
 class DelivaryPopUp extends StatelessWidget {
   const DelivaryPopUp({super.key});
@@ -64,12 +64,13 @@ class DelivaryPopUp extends StatelessWidget {
                   style: TextStyle(
                       fontSize: 16,
                       fontFamily: 'poppins',
-                      fontWeight: FontWeight.bold),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white),
                 ),
                 onPressed: () {
                   Navigator.push(context,
                       MaterialPageRoute(builder: ((context) {
-                    return Account();
+                    return HomePage();
                   })));
                 },
               ),

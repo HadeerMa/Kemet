@@ -2,7 +2,9 @@ abstract class SignInstate {}
 
 final class SignInSuccess extends SignInstate {
   final String msg;
-  SignInSuccess({required this.msg});
+    final String token;
+
+  SignInSuccess({required this.msg, required this.token});
 }
 
 final class SignInInitial extends SignInstate {}

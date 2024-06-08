@@ -10,6 +10,8 @@ import 'package:kemet/screens/homepage.dart';
 import 'package:kemet/widget/Button.dart';
 import 'package:kemet/widget/EmailTextField.dart';
 import 'package:kemet/widget/text.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 
 class logEmail extends StatefulWidget {
   const logEmail({super.key});
@@ -28,6 +30,24 @@ class _logEmailState extends State<logEmail> {
     super.initState();
     dioConsumer = DioConsumer(dio: Dio());
     cubit = SignInCubit(api: dioConsumer);
+        _checkLoginStatus();
+
+  }
+  Future<void> _checkLoginStatus() async {
+    final prefs = await SharedPreferences.getInstance();
+    final isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
+    if (isLoggedIn) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => HomePage()),
+      );
+    }
+  }
+
+  Future<void> _saveLoginState(bool isLoggedIn, String token) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setBool('isLoggedIn', isLoggedIn);
+    await prefs.setString('token', token);
   }
 
   bool _isObscure = true;
@@ -39,6 +59,8 @@ class _logEmailState extends State<logEmail> {
         listener: (context, state) {
           // TODO: implement listener
           if (state is SignInSuccess) {
+        _saveLoginState(true, state.token);
+
             Navigator.push(
               context,
               MaterialPageRoute(builder: (BuildContext context) {

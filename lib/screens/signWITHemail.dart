@@ -23,11 +23,11 @@ class signEmail extends StatelessWidget {
       child: BlocConsumer<SignEmailCubit, SignEmailState>(
         listener: (context, state) {
           if (state is SignEmailSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('success'),
-              ),
-            );
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   const SnackBar(
+            //     content: Text('success'),
+            //   ),
+            // );
             //context.read<verificationEmailCubit>().verification_Email();
             Navigator.push(context,
                 MaterialPageRoute(builder: (Context) => verification()));

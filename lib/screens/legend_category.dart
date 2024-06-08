@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:external_app_launcher/external_app_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:kemet/logic/cache/cache_helper.dart';
@@ -8,6 +9,8 @@ import 'package:kemet/pages2/legand.dart';
 import 'package:kemet/pages2/legand_search.dart';
 import 'package:kemet/screens/homepage.dart';
 import 'package:kemet/widget/bottomnavebar.dart';
+import 'package:kemet/Map/open_street_map_search_and_pick.dart';
+
 
 class LegendCategory extends StatefulWidget {
   @override
@@ -88,7 +91,7 @@ class _LegendCategoryState extends State<LegendCategory> {
     var screenHeight = MediaQuery.of(context).size.height;
 
     return Scaffold(
-      backgroundColor: Colors.white,
+     // backgroundColor: Colors.white,
       body: Padding(
         padding: const EdgeInsets.only(
           top: 30,
@@ -298,7 +301,21 @@ class _LegendCategoryState extends State<LegendCategory> {
               ),
               bottom(
                 image: 'images/Menu 2.png',
-                ontap: () {},
+                ontap: () {  Navigator.of(context).push(MaterialPageRoute(
+    builder: (context) => Material(
+      child: OpenStreetMapSearchAndPick(
+        buttonTextStyle: const TextStyle(fontSize: 18, fontStyle: FontStyle.normal),
+        // buttonColor: Colors.g,
+        // buttonText: 'Set Current Location',
+        onPicked: (pickedData) {
+          print(pickedData.latLong.latitude);
+          print(pickedData.latLong.longitude);
+          print(pickedData.address);
+        },
+        calculateRoute: (LatLng) {},
+      ),
+    ),
+  ));},
               ),
               bottom(
                 image: 'images/Menu 6.png',
@@ -309,7 +326,16 @@ class _LegendCategoryState extends State<LegendCategory> {
               ),
               bottom(
                 image: 'images/Menu 7.png',
-                ontap: () {},
+                ontap: () async {
+                      var openAppResult = await LaunchApp.openApp(
+                        androidPackageName: 'com.DefaultCompany.TestNowDeleteLater',
+                      );
+                      print(
+                          'openAppResult => $openAppResult ${openAppResult.runtimeType}');
+                      // Enter thr package name of the App you want to open and for iOS add the URLscheme to the Info.plist file.
+                      // The second arguments decide wether the app redirects PlayStore or AppStore.
+                      // For testing purpose you can enter com.instagram.android
+                    },
               ),
             ],
           ),

@@ -44,7 +44,8 @@ class FavoriteKinds extends StatelessWidget {
           onTap: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
               return const FavoritesTripsView();
-            }));
+            }
+            ));
           },
           child: const CustomContainerSetting(
             icon: Icons.favorite,

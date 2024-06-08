@@ -20,9 +20,8 @@ class ResetPasswordCubit extends Cubit<ResetPasswordstate> {
 
   Future<void> Reset_Password (Dio dio) async {
     try {
-     
+     final token = CacheHelper().getDataString(key: ApiKey.token);
       emit(ResetPasswordLoading());
-      final token = CacheHelper().getDataString(key: ApiKey.token);
       final response = await dio.post(
         EndPoint.resetPassword,
         data: {
@@ -31,10 +30,12 @@ class ResetPasswordCubit extends Cubit<ResetPasswordstate> {
         },
         options: Options(headers: {
           'token': token,
-        }),
+        }
+        ),
       );
 if (response.statusCode == 200) {
         final resetPasswordModel = ResetPasswordModel.fromJson(response.data);
+        CacheHelper().saveData(key: ApiKey.token, value: response.data['token']);
         emit(ResetPasswordSuccess(msg: resetPasswordModel.msg));
       } else {
         // Handle other status codes

@@ -4,6 +4,7 @@ import 'package:kemet/logic/cache/cache_helper.dart';
 import 'package:kemet/logic/core/api/end_ponits.dart';
 import 'package:kemet/models2/favorites_tourism.dart';
 import 'package:kemet/screens/listofTrps.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class HistoryOfPlace extends StatefulWidget {
   final TourismPlace tourismPlace;
@@ -72,6 +73,25 @@ class _HistoryOfPlaceState extends State<HistoryOfPlace> {
   }
 
   @override
+  void initState() {
+    super.initState();
+
+    _loadFavoriteStatus();
+  }
+
+  void _loadFavoriteStatus() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      _isPressed = prefs.getBool('favorite_${widget.tourismPlace.id}') ?? false;
+    });
+  }
+
+  void _saveFavoriteStatus(bool isPressed) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('favorite_${widget.tourismPlace.id}', isPressed);
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -91,6 +111,7 @@ class _HistoryOfPlaceState extends State<HistoryOfPlace> {
                 setState(() {
                   _isPressed = !_isPressed;
                 });
+                _saveFavoriteStatus(_isPressed);
 
                 if (_isPressed) {
                   final token = CacheHelper().getDataString(key: ApiKey.token);
@@ -232,7 +253,7 @@ class _HistoryOfPlaceState extends State<HistoryOfPlace> {
                   },
                   child: Text(
                     'Your Trips',
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(fontSize: 20, color: Colors.white),
                   ),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromRGBO(255, 180, 17, 0.7),

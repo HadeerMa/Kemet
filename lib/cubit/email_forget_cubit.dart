@@ -26,9 +26,10 @@ class EmailForgetCubit extends Cubit<EmailForgetstate> {
           ApiKey.email: EmailForgetController.text,
          
         },
-        options: Options(headers: {
-          'token': token,
-        }),
+        // options: Options(headers: {
+        //   'token': token,
+        // }
+        // ),
       );
 if (response.statusCode == 200) {
         final emailForgetModel = EmailForgetModel.fromJson(response.data);

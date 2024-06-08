@@ -17,6 +17,7 @@ class SignInCubit extends Cubit<SignInstate> {
   final ApiConsumer api;
 
   Future<void> Sign_In(Dio dio) async {
+
     try {
       emit(SignInLoading());
       // final token = CacheHelper().getDataString(key: ApiKey.token);
@@ -32,11 +33,12 @@ class SignInCubit extends Cubit<SignInstate> {
       );
       // final signinModel = SignInModel.fromJson(response as Map<String, dynamic>);
 
-      CacheHelper().saveData(key: ApiKey.token, value: response.data['token']);
+//      CacheHelper().saveData(key: ApiKey.token, value: response.data['token']);
 
       if (response.statusCode == 200) {
         final signinModel = SignInModel.fromJson(response.data);
-        emit(SignInSuccess(msg: signinModel.msg));
+        CacheHelper().saveData(key: ApiKey.token, value: response.data['token']);
+        emit(SignInSuccess(msg: signinModel.msg, token: response.data['token']));
       } else {
         // Handle other status codes
         throw Exception('Unexpected status code: ${response.statusCode}');

@@ -27,11 +27,11 @@ class Email_ForgetPass extends StatelessWidget {
       
 
           if (state is EmailForgetSuccess) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('success'),
-              ),
-            );
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   const SnackBar(
+            //     content: Text('success'),
+            //   ),
+            // );
             //context.read<verificationEmailCubit>().verification_Email();
             Navigator.push(context,
                 MaterialPageRoute(builder: (Context) => verification_Forget()));

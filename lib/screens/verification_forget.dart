@@ -8,6 +8,8 @@ import 'package:kemet/screens/Create_ForgetPassword.dart';
 import 'package:kemet/screens/errorPoPUP.dart';
 import 'package:kemet/widget/Button.dart';
 import 'package:kemet/widget/text.dart';
+import 'package:flutter/services.dart';
+
 
 // ignore: must_be_immutable
 class verification_Forget extends StatefulWidget {
@@ -45,9 +47,9 @@ class _verificationState extends State<verification_Forget> {
                     return Create_ForgetPassword();
                   }),
                 );
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(content: Text(state.msg)),
-                );
+                // ScaffoldMessenger.of(context).showSnackBar(
+                //   SnackBar(content: Text(state.msg)),
+                // );
               } else if (state is ForgetVerificationError) {
                 showCustomPopupError(context);
                 // ScaffoldMessenger.of(context).showSnackBar(
@@ -99,6 +101,7 @@ class _verificationState extends State<verification_Forget> {
                                   controller: context
                                       .read<ForgetVerificationCubit>()
                                       .ForgetVerificationController,
+                                      
                                   decoration: InputDecoration(
                                     labelText: 'Pin Code',
                                     hintText: 'Enter Your Pin Code',

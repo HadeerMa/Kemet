@@ -41,9 +41,9 @@ class _Create_PasswordState extends State<Create_ForgetPassword> {
           if (state is ResetPasswordSuccess) {
             showCustomPopupCongrats(context);
 
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.msg)),
-            );
+            // ScaffoldMessenger.of(context).showSnackBar(
+            //   SnackBar(content: Text(state.msg)),
+            // );
           } else if (state is ResetPasswordError) {
             showCustomPopupError(context);
             // ScaffoldMessenger.of(context).showSnackBar(

@@ -24,9 +24,12 @@ class _LogoState extends State<Logo> {
   _checkOnboardingStatus() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isOnboardingCompleted = prefs.getBool('onboardingCompleted') ?? false;
+    bool isLoggedIn = prefs.getBool('isLoggedIn') ?? false;
 
     Future.delayed(Duration(seconds: 6), () {
-      if (isOnboardingCompleted) {
+     if (isLoggedIn) {
+        Navigator.pushReplacementNamed(context, '/home');
+      } else if (isOnboardingCompleted) {
         Navigator.pushReplacementNamed(context, '/login');
       } else {
         Navigator.pushReplacementNamed(context, '/BookTicket');

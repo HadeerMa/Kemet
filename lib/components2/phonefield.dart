@@ -1,24 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
-class CustomField extends StatelessWidget {
-  const CustomField(
-      {super.key,
-      required this.label,
-      required this.hint,
-      required this.controller,
-      required this.suffixIcon});
+class PhoneField extends StatelessWidget {
+  const PhoneField({
+    super.key,
+    required this.label,
+    required this.hint,
+    required this.controller,
+    this.suffixIcon,
+  });
+
   final String label;
   final String hint;
   final TextEditingController controller;
-  final Widget suffixIcon;
+  final Widget? suffixIcon;
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
+      keyboardType: TextInputType.number,
+      inputFormatters: [
+        FilteringTextInputFormatter.allow(RegExp(r'[0-9]')),
+      ],
       decoration: InputDecoration(
         label: Text(
           label,
-          style: TextStyle(fontFamily: 'poppins', fontSize: 18),
+          style: const TextStyle(fontFamily: 'poppins', fontSize: 18),
         ),
         hintText: hint,
         floatingLabelStyle: const TextStyle(color: Color(0xffB68B25)),
@@ -35,10 +43,9 @@ class CustomField extends StatelessWidget {
       autovalidateMode: AutovalidateMode.onUserInteraction,
       validator: (value) {
         if (value!.isEmpty) {
-          return 'you must enter this information';
-        } else if (RegExp(r'[!@#$%^&*(),.?":{}|<>_+=]').hasMatch(value)) {
-          return 'This field cannot contain symbols';
+          return 'You must enter a phone number.';
         }
+        return null;
       },
     );
   }

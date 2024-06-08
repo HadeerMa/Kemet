@@ -6,8 +6,8 @@ import 'package:kemet/cubit/newgov_dart_state.dart';
 import 'package:kemet/logic/cache/cache_helper.dart';
 import 'package:kemet/logic/core/api/dio_consumer.dart';
 import 'package:kemet/logic/core/api/end_ponits.dart';
+import 'package:kemet/pages2/governorate.dart';
 import 'package:kemet/screens/governates_screens.dart';
-import 'package:kemet/screens/torist_place.dart';
 import 'package:kemet/widget/imagegover.dart';
 
 class Governoratesnew extends StatelessWidget {
@@ -43,20 +43,20 @@ class Governoratesnew extends StatelessWidget {
                           itemBuilder: (context, index) {
                             if (index < state.governorates.length) {
                               final governorate = state.governorates[index];
-                            
 
                               return Padding(
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 5),
                                 child: imagecover(
-                                
                                   ontap: () {
-                                   // final idgovernrate = CacheHelper().getDataString(key: ApiKey.idgovernrate);
-                                                               //final governate = state[index];
+                                    // final idgovernrate = CacheHelper().getDataString(key: ApiKey.idgovernrate);
+                                    //final governate = state[index];
 
                                     Navigator.of(context).push(
                                       MaterialPageRoute(
-                                        builder: (context) => ToristPlace(governateId: governorate.id,),
+                                        builder: (context) => ToristPlace(
+                                          governateId: governorate.id,
+                                        ),
                                       ),
                                     );
                                   },
@@ -89,7 +89,7 @@ class Governoratesnew extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(10),
                                       image: DecorationImage(
                                         image: AssetImage(
-                                            'images/egypt.png'), // Replace with your image URL
+                                            'images/egypt2.jpg'), // Replace with your image URL
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -121,7 +121,6 @@ class Governoratesnew extends StatelessWidget {
                         ),
                       ),
                     ),
-                   
                   ],
                 ),
               ],
